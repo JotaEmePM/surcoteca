@@ -2,7 +2,7 @@ import { Product as ProductData } from "../lib/models/product"
 import ProductGrid from "../ui/shared/products/product-grid"
 
 
-export default function NewArrivals() {
+export default function Discounts() {
     const dataProducts: ProductData[] = [
         {
             id: '1',
@@ -48,7 +48,7 @@ export default function NewArrivals() {
     return <>
         <section className="px-40 flex flex-1 justify-center py-5">
             <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
-                <h2 className="text-white tracking-light text-[28px] font-bold leading-tight px-4 text-left pb-3 pt-5">Nuevos lanzamientos</h2>
+                <h2 className="text-white tracking-light text-[28px] font-bold leading-tight px-4 text-left pb-3 pt-5">¡Precios de locos!</h2>
                 <ProductGrid productProps={dataProducts} />
             </div>
         </section>

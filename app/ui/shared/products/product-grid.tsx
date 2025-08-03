@@ -8,9 +8,11 @@ interface ProductGridProps {
 
 export default function ProductGrid({ productProps }: ProductGridProps) {
     return <>
-        {Array.isArray(productProps) &&
-            productProps.map((product, index) => (
-                <Product key={index} {...product} />
-            ))}
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4">
+            {Array.isArray(productProps) &&
+                productProps.map((product, index) => (
+                    <Product key={index} {...product} />
+                ))}
+        </div>
     </>
 }
