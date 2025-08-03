@@ -19,6 +19,7 @@ const notoSans = Noto_Sans({
 export const metadata: Metadata = {
   title: "Surcoteca",
   description: "Tienda online de vinilos, encuentra tus favoritos",
+  themeColor: "#161d1c",
 };
 
 export default function RootLayout({
