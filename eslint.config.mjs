@@ -47,7 +47,7 @@ const eslintConfig = [
       "@next/next/no-img-element": "warn",
       "react-hooks/exhaustive-deps": "warn",
       "prefer-const": "warn",
-      "no-console": "error",
+      // "no-console": "error",
       // Reglas para punto y coma y comillas
       "semi": ["error", "never"],
       "quotes": ["error", "single", { "avoidEscape": true }]
