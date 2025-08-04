@@ -8,7 +8,7 @@
 // Test data para el usuario
 const testUser = {
     id: 'test_user_123',
-    email: 'tu-email@ejemplo.com', // Cambia esto por tu email real
+    email: 'perezmjosem@gmail.com', // Cambia esto por tu email real
     user_metadata: {
         name: 'Usuario de Prueba',
         full_name: 'Usuario de Prueba Completo',
