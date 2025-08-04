@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
+import { sendWelcomeEmail, isNewUser } from '@/app/lib/email-service'
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
@@ -17,7 +18,7 @@ export async function GET(request: NextRequest) {
 
   if (code) {
     const cookieStore = await cookies()
-    
+
     const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
       cookies: {
         getAll() {
@@ -32,9 +33,24 @@ export async function GET(request: NextRequest) {
     })
 
     try {
-      const { error } = await supabase.auth.exchangeCodeForSession(code)
-      
-      if (!error) {
+      const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+
+      if (!error && data.user) {
+        // Verificar si es un usuario nuevo y enviar email de bienvenida
+        if (isNewUser(data.user as any)) {
+          try {
+            const result = await sendWelcomeEmail(data.user as any)
+            if (result.success) {
+              console.log('Welcome email sent successfully')
+            } else {
+              console.error('Failed to send welcome email:', result.error)
+            }
+          } catch (emailError) {
+            console.error('Error sending welcome email:', emailError)
+            // No fallar la autenticación por problemas de email
+          }
+        }
+
         // Redirigir al dashboard o página principal después del login exitoso
         const response = NextResponse.redirect(new URL('/', requestUrl.origin))
         return response
