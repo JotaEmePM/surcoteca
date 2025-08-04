@@ -18,6 +18,9 @@
   --accent: #93c8bd;
   --accent-hover: #7fb5ac;
   --accent-foreground: #0e1918;
+  
+  /* Colores de interacción */
+  --card-hover: #243530;
 }
 
 @theme inline {
@@ -38,6 +41,9 @@
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-foreground: var(--accent-foreground);
+  
+  /* Colores de interacción */
+  --color-card-hover: var(--card-hover);
 }
 
 @media (prefers-color-scheme: dark) {

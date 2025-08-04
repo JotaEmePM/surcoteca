@@ -4,7 +4,7 @@ import React from "react";
 
 export default function Product(productProps: ProductItem) {
     return (<>
-        <div className="flex flex-col gap-3 pb-3 hover:bg-[#244740] hover:rounded-2xl transition-all duration-200">
+        <div className="flex flex-col gap-3 pb-3 hover:bg-card-hover hover:rounded-2xl transition-all duration-200">
             <Link href={`/products/${productProps.id}`} className="flex flex-col gap-2">
                 <div className="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
                     style={{ backgroundImage: 'url("https://placehold.co/100x100")' }}>

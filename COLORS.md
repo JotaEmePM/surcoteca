@@ -22,6 +22,9 @@
 - `bg-accent-hover` / `text-accent-hover` - `#7fb5ac` - Variante hover del acento
 - `text-accent-foreground` - `#0e1918` - Texto sobre color de acento
 
+### Colores de Interacción
+- `bg-card-hover` - `#243530` - Fondo hover para cards y elementos interactivos
+
 ## Ejemplos de Uso
 
 ### Botones
@@ -42,6 +45,14 @@
 <div className="bg-secondary rounded-lg p-6">
   <h2 className="text-secondary-foreground">Título</h2>
   <p className="text-muted-foreground">Descripción</p>
+</div>
+```
+
+### Cards con Hover
+```tsx
+<div className="bg-transparent hover:bg-card-hover rounded-lg p-4 transition-all duration-200">
+  <h3 className="text-foreground">Producto</h3>
+  <p className="text-primary">$29.99</p>
 </div>
 ```
 
@@ -79,6 +90,7 @@
 | `#2e3b39` | `muted` |
 | `#ffffff` | `foreground` |
 | `#0e1918` | `primary-foreground` |
+| `#244740` | `card-hover` |
 
 ## Próximos Pasos
 
