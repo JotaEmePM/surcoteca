@@ -39,16 +39,34 @@ Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
 ### En Supabase:
 1. Ve a Authentication > Providers
-2. Habilita GitHub
-3. Configura las URLs:
+2. **Habilita GitHub:**
+   - Activa el toggle de GitHub
+   - Ingresa Client ID y Client Secret de GitHub
+3. **Habilita Google:**
+   - Activa el toggle de Google
+   - Ingresa Client ID y Client Secret de Google
+4. Configura las URLs:
    - **Site URL**: `https://tu-dominio.vercel.app` (producción)
    - **Redirect URLs**: `https://tu-dominio.vercel.app/auth/callback`
 
 ### En GitHub:
 1. Ve a Settings > Developer settings > OAuth Apps  
 2. Crea una nueva OAuth App:
+   - **Application name**: Tu App Name
+   - **Homepage URL**: `https://tu-dominio.vercel.app`
    - **Authorization callback URL**: `https://tu-proyecto.supabase.co/auth/v1/callback`
 3. Copia Client ID y Client Secret a Supabase
+
+### En Google Cloud Console:
+1. Ve a [Google Cloud Console](https://console.cloud.google.com/)
+2. Crea un nuevo proyecto o selecciona uno existente
+3. Habilita la Google+ API
+4. Ve a Credentials > Create Credentials > OAuth 2.0 Client IDs
+5. Configura:
+   - **Application type**: Web application
+   - **Authorized JavaScript origins**: `https://tu-proyecto.supabase.co`
+   - **Authorized redirect URIs**: `https://tu-proyecto.supabase.co/auth/v1/callback`
+6. Copia Client ID y Client Secret a Supabase
 
 ## 🚀 Deploy en Vercel
 
@@ -73,7 +91,8 @@ UNDER_CONSTRUCTION=false
 - **@supabase/ssr** - Autenticación server-side  
 - **Tailwind CSS** - Estilos
 - **TypeScript** - Tipado estático
-- **GitHub OAuth** - Autenticación social
+- **GitHub OAuth** - Autenticación con GitHub
+- **Google OAuth** - Autenticación con Google
 
 ## 📱 Rutas disponibles
 

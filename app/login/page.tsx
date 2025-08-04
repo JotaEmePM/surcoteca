@@ -1,15 +1,15 @@
 'use client';
 
-import { IconBrandGithub, IconPasswordFingerprint } from '@tabler/icons-react';
+import { IconBrandGithub, IconBrandGoogle, IconPasswordFingerprint } from '@tabler/icons-react';
 import { useAuth } from '../lib/use-auth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 
 function LoginForm() {
-  const { signInWithGitHub, user, loading } = useAuth();
+  const { signInWithGitHub, signInWithGoogle, signInWithProvider, user, loading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [isSigningIn, setIsSigningIn] = useState<string | null>(null); // Cambio: trackear qué provider está loading
   const [error, setError] = useState<string | null>(null);
 
   // Redirigir si ya está autenticado
@@ -30,16 +30,27 @@ function LoginForm() {
   }, [searchParams]);
 
   const handleGitHubLogin = async () => {
-    setIsSigningIn(true);
+    setIsSigningIn('github');
     setError(null);
     
     const { error } = await signInWithGitHub();
     
     if (error) {
       setError('Error al iniciar sesión con GitHub. Inténtalo de nuevo.');
-      setIsSigningIn(false);
+      setIsSigningIn(null);
     }
-    // No necesitamos setIsSigningIn(false) aquí porque el usuario será redirigido
+  };
+
+  const handleGoogleLogin = async () => {
+    setIsSigningIn('google');
+    setError(null);
+    
+    const { error } = await signInWithGoogle();
+    
+    if (error) {
+      setError('Error al iniciar sesión con Google. Inténtalo de nuevo.');
+      setIsSigningIn(null);
+    }
   };
 
   if (loading) {
@@ -125,15 +136,25 @@ function LoginForm() {
           </div>
 
           {/* Social Buttons */}
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             <button
               type="button"
               onClick={handleGitHubLogin}
-              disabled={isSigningIn}
+              disabled={isSigningIn === 'github'}
               className="flex-1 py-2 border border-muted text-foreground rounded-md flex items-center justify-center gap-2 hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <IconBrandGithub className="h-5 w-5" />
-              {isSigningIn ? 'Iniciando sesión...' : 'GitHub'}
+              {isSigningIn === 'github' ? 'Conectando...' : 'GitHub'}
+            </button>
+            
+            <button
+              type="button"
+              onClick={handleGoogleLogin}
+              disabled={isSigningIn === 'google'}
+              className="flex-1 py-2 border border-muted text-foreground rounded-md flex items-center justify-center gap-2 hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <IconBrandGoogle className="h-5 w-5" />
+              {isSigningIn === 'google' ? 'Conectando...' : 'Google'}
             </button>
           </div>
 

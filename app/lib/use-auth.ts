@@ -74,9 +74,55 @@ export const useAuth = () => {
 
     try {
       const redirectTo = `https://www.surcoteca.cl/auth/callback`;
-console.log('Redirect URL:', redirectTo);
+      console.log('Redirect URL:', redirectTo);
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'github',
+        options: {
+          redirectTo,
+        },
+      });
+      return { data, error };
+    } catch (error) {
+      return { data: null, error };
+    }
+  };
+
+  // Función para login con Google
+  const signInWithGoogle = async () => {
+    const supabase = createClient();
+    
+    if (!supabase) {
+      return { data: null, error: new Error('Supabase not configured') };
+    }
+
+    try {
+      const redirectTo = `https://www.surcoteca.cl/auth/callback`;
+      console.log('Redirect URL:', redirectTo);
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo,
+        },
+      });
+      return { data, error };
+    } catch (error) {
+      return { data: null, error };
+    }
+  };
+
+  // Función genérica para login con cualquier proveedor OAuth
+  const signInWithProvider = async (provider: 'github' | 'google') => {
+    const supabase = createClient();
+    
+    if (!supabase) {
+      return { data: null, error: new Error('Supabase not configured') };
+    }
+
+    try {
+      const redirectTo = `https://www.surcoteca.cl/auth/callback`;
+      console.log('Redirect URL:', redirectTo);
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider,
         options: {
           redirectTo,
         },
@@ -106,6 +152,8 @@ console.log('Redirect URL:', redirectTo);
   return {
     ...authState,
     signInWithGitHub,
+    signInWithGoogle,
+    signInWithProvider,
     signOut,
   };
 };
