@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 
 import "./globals.css";
 import { getUnderConstructionStatus } from "./lib/env-data";
 import UnderConstruction from "./components/under-construction";
 import ConditionalLayout from "./ui/shared/conditional-layout";
+
+const comfortaa = localFont({
+  src: "../public/fonts/Comfortaa-Regular.woff2",
+  variable: "--font-comfortaa",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Surcoteca",
@@ -18,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`antialiased`}>
+      <body className={`${comfortaa.variable} antialiased`}>
       
         {getUnderConstructionStatus() ? (
           <UnderConstruction />

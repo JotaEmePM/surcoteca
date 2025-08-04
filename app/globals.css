@@ -1,14 +1,5 @@
 @import "tailwindcss";
 
-/* styles/fonts.css */
-@font-face {
-  font-family: 'Confortaa';
-  src: url('fonts/Comfortaa-Regular.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root {
   --background: #161d1c;
   --foreground: #ffffff;
@@ -29,5 +20,5 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Confortaa', sans-serif;
+  font-family: var(--font-comfortaa), sans-serif;
 }
