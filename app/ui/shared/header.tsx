@@ -1,21 +1,21 @@
 'use client'
 
-import Link from "next/dist/client/link";
-import Logo from "./logo";
-import { IconFileSmile, IconSearch, IconShoppingCart, IconUser, IconLogout } from "@tabler/icons-react";
-import { useAuth } from "../../lib/use-auth";
-import { useState, useEffect } from "react";
-import { createClient } from "../../lib/supabase";
+import Link from 'next/dist/client/link'
+import Logo from './logo'
+import { IconFileSmile, IconSearch, IconShoppingCart, IconUser, IconLogout } from '@tabler/icons-react'
+import { useAuth } from '../../lib/use-auth'
+import { useState, useEffect } from 'react'
+import { createClient } from '../../lib/supabase'
 
 export default function Header() {
-    const { user, signOut, loading } = useAuth();
-    const [showDropdown, setShowDropdown] = useState(false);
-    const [isSupabaseConfigured, setIsSupabaseConfigured] = useState(true);
+    const { user, signOut, loading } = useAuth()
+    const [showDropdown, setShowDropdown] = useState(false)
+    const [isSupabaseConfigured, setIsSupabaseConfigured] = useState(true)
 
     useEffect(() => {
-        const supabase = createClient();
-        setIsSupabaseConfigured(!!supabase);
-    }, []);
+        const supabase = createClient()
+        setIsSupabaseConfigured(!!supabase)
+    }, [])
 
     const handleSearchSubmit = () => {
         console.log('search')
@@ -26,8 +26,8 @@ export default function Header() {
     }
 
     const handleSignOut = async () => {
-        await signOut();
-        setShowDropdown(false);
+        await signOut()
+        setShowDropdown(false)
     }
 
     return (

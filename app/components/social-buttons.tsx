@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import { IconBrandGithub, IconBrandGoogle } from '@tabler/icons-react';
-import { useAuth } from '../lib/use-auth';
-import { useState } from 'react';
+import { IconBrandGithub, IconBrandGoogle } from '@tabler/icons-react'
+import { useAuth } from '../lib/use-auth'
+import { useState } from 'react'
 
 interface SocialButtonsProps {
   onError?: (error: string) => void;
@@ -10,20 +10,20 @@ interface SocialButtonsProps {
 }
 
 export default function SocialButtons({ onError, className = '' }: SocialButtonsProps) {
-  const { signInWithProvider } = useAuth();
-  const [isSigningIn, setIsSigningIn] = useState<string | null>(null);
+  const { signInWithProvider } = useAuth()
+  const [isSigningIn, setIsSigningIn] = useState<string | null>(null)
 
   const handleProviderLogin = async (provider: 'github' | 'google') => {
-    setIsSigningIn(provider);
+    setIsSigningIn(provider)
     
-    const { error } = await signInWithProvider(provider);
+    const { error } = await signInWithProvider(provider)
     
     if (error) {
-      const errorMessage = `Error al iniciar sesión con ${provider === 'github' ? 'GitHub' : 'Google'}. Inténtalo de nuevo.`;
-      onError?.(errorMessage);
-      setIsSigningIn(null);
+      const errorMessage = `Error al iniciar sesión con ${provider === 'github' ? 'GitHub' : 'Google'}. Inténtalo de nuevo.`
+      onError?.(errorMessage)
+      setIsSigningIn(null)
     }
-  };
+  }
 
   return (
     <div className={`flex gap-3 ${className}`}>
@@ -47,5 +47,5 @@ export default function SocialButtons({ onError, className = '' }: SocialButtons
         {isSigningIn === 'google' ? 'Conectando...' : 'Google'}
       </button>
     </div>
-  );
+  )
 }

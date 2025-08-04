@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: "Login - Surcoteca",
-  description: "Iniciar sesión en Surcoteca",
-};
+  title: 'Login - Surcoteca',
+  description: 'Iniciar sesión en Surcoteca',
+}
 
 export default function LoginLayout({
   children,
@@ -16,5 +16,5 @@ export default function LoginLayout({
         {children}
       </div>
     </div>
-  );
+  )
 }

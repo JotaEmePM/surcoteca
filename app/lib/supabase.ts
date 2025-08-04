@@ -1,21 +1,21 @@
-import { createBrowserClient } from '@supabase/ssr';
+import { createBrowserClient } from '@supabase/ssr'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 
 // Cliente para el navegador
 export const createClient = () => {
   if (!supabaseUrl || !supabaseAnonKey) {
-    return null;
+    return null
   }
   
-  return createBrowserClient(supabaseUrl, supabaseAnonKey);
-};
+  return createBrowserClient(supabaseUrl, supabaseAnonKey)
+}
 
 // Cliente legacy para compatibilidad
 export const supabase = supabaseUrl && supabaseAnonKey 
   ? createBrowserClient(supabaseUrl, supabaseAnonKey)
-  : null;
+  : null
 
 // Tipos para TypeScript
 export type Database = {

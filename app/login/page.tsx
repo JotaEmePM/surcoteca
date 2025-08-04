@@ -1,64 +1,64 @@
-'use client';
+'use client'
 
-import { IconBrandGithub, IconBrandGoogle, IconPasswordFingerprint } from '@tabler/icons-react';
-import { useAuth } from '../lib/use-auth';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, Suspense } from 'react';
+import { IconBrandGithub, IconBrandGoogle, IconPasswordFingerprint } from '@tabler/icons-react'
+import { useAuth } from '../lib/use-auth'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState, Suspense } from 'react'
 
 function LoginForm() {
-  const { signInWithGitHub, signInWithGoogle, signInWithProvider, user, loading } = useAuth();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const [isSigningIn, setIsSigningIn] = useState<string | null>(null); // Cambio: trackear qué provider está loading
-  const [error, setError] = useState<string | null>(null);
+  const { signInWithGitHub, signInWithGoogle, signInWithProvider, user, loading } = useAuth()
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const [isSigningIn, setIsSigningIn] = useState<string | null>(null) // Cambio: trackear qué provider está loading
+  const [error, setError] = useState<string | null>(null)
 
   // Redirigir si ya está autenticado
   useEffect(() => {
     if (user && !loading) {
-      router.push('/');
+      router.push('/')
     }
-  }, [user, loading, router]);
+  }, [user, loading, router])
 
   // Mostrar error si viene de la URL
   useEffect(() => {
-    const errorParam = searchParams.get('error');
+    const errorParam = searchParams.get('error')
     if (errorParam === 'auth_error') {
-      setError('Hubo un problema con la autenticación. Inténtalo de nuevo.');
+      setError('Hubo un problema con la autenticación. Inténtalo de nuevo.')
     } else if (errorParam === 'config_error') {
-      setError('La aplicación no está configurada correctamente. Contacta al administrador.');
+      setError('La aplicación no está configurada correctamente. Contacta al administrador.')
     }
-  }, [searchParams]);
+  }, [searchParams])
 
   const handleGitHubLogin = async () => {
-    setIsSigningIn('github');
-    setError(null);
+    setIsSigningIn('github')
+    setError(null)
     
-    const { error } = await signInWithGitHub();
+    const { error } = await signInWithGitHub()
     
     if (error) {
-      setError('Error al iniciar sesión con GitHub. Inténtalo de nuevo.');
-      setIsSigningIn(null);
+      setError('Error al iniciar sesión con GitHub. Inténtalo de nuevo.')
+      setIsSigningIn(null)
     }
-  };
+  }
 
   const handleGoogleLogin = async () => {
-    setIsSigningIn('google');
-    setError(null);
+    setIsSigningIn('google')
+    setError(null)
     
-    const { error } = await signInWithGoogle();
+    const { error } = await signInWithGoogle()
     
     if (error) {
-      setError('Error al iniciar sesión con Google. Inténtalo de nuevo.');
-      setIsSigningIn(null);
+      setError('Error al iniciar sesión con Google. Inténtalo de nuevo.')
+      setIsSigningIn(null)
     }
-  };
+  }
 
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-foreground">Cargando...</div>
       </div>
-    );
+    )
   }
 
   return (
@@ -168,7 +168,7 @@ function LoginForm() {
         </div>
       </div>
     </>
-  );
+  )
 }
 
 function LoadingFallback() {
@@ -176,7 +176,7 @@ function LoadingFallback() {
     <div className="min-h-screen bg-background flex items-center justify-center">
       <div className="text-foreground">Cargando página de login...</div>
     </div>
-  );
+  )
 }
 
 export default function Login() {
@@ -184,5 +184,5 @@ export default function Login() {
     <Suspense fallback={<LoadingFallback />}>
       <LoginForm />
     </Suspense>
-  );
+  )
 }

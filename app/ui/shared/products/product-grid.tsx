@@ -1,5 +1,5 @@
-import Product from "./product";
-import { Product as ProductData } from "@/app/lib/models/product";
+import Product from './product'
+import { Product as ProductData } from '@/app/lib/models/product'
 
 
 interface ProductGridProps {

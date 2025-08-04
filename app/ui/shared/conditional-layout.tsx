@@ -1,18 +1,18 @@
 'use client'
 
-import { usePathname } from "next/navigation";
-import Header from "./header";
+import { usePathname } from 'next/navigation'
+import Header from './header'
 
 interface ConditionalLayoutProps {
   children: React.ReactNode;
 }
 
 export default function ConditionalLayout({ children }: ConditionalLayoutProps) {
-  const pathname = usePathname();
+  const pathname = usePathname()
   
   // Rutas que no deben mostrar el header
-  const noHeaderRoutes = ['/login', '/register', '/signup'];
-  const shouldShowHeader = !noHeaderRoutes.some(route => pathname.startsWith(route));
+  const noHeaderRoutes = ['/login', '/register', '/signup']
+  const shouldShowHeader = !noHeaderRoutes.some(route => pathname.startsWith(route))
 
   if (shouldShowHeader) {
     return (
@@ -22,9 +22,9 @@ export default function ConditionalLayout({ children }: ConditionalLayoutProps) 
           {children}
         </div>
       </div>
-    );
+    )
   }
 
   // Para rutas de login, devolver solo los children sin header
-  return <>{children}</>;
+  return <>{children}</>
 }

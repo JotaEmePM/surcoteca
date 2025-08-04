@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { IconBulldozer } from "@tabler/icons-react";
+import { ReactNode } from 'react'
+import { IconBulldozer } from '@tabler/icons-react'
 
 
 const UnderConstruction = () => {
@@ -12,7 +12,7 @@ const UnderConstruction = () => {
                 <p className="font-light text-gray-500 md:text-lg xl:text-xl dark:text-gray-400">Nuestra tienda está en construcción. Vuelve más tarde.</p>
             </div>
         </section>
-    );
-};
+    )
+}
 
-export default UnderConstruction;
+export default UnderConstruction

@@ -3,4 +3,4 @@ const getUnderConstructionStatus = () => {
   return underConstruction === 'true'
 }
 
-export { getUnderConstructionStatus };
+export { getUnderConstructionStatus }

@@ -1,21 +1,21 @@
-import { createServerSupabaseClient } from '../lib/supabase-server';
-import { redirect } from 'next/navigation';
+import { createServerSupabaseClient } from '../lib/supabase-server'
+import { redirect } from 'next/navigation'
 
 export default async function ServerProfilePage() {
-  const supabase = await createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient()
   
   if (!supabase) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-foreground">Supabase no configurado</div>
       </div>
-    );
+    )
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    redirect('/login');
+    redirect('/login')
   }
 
   return (
@@ -64,5 +64,5 @@ export default async function ServerProfilePage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

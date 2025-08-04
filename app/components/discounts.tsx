@@ -1,5 +1,5 @@
-import { Product as ProductData } from "../lib/models/product"
-import ProductGrid from "../ui/shared/products/product-grid"
+import { Product as ProductData } from '../lib/models/product'
+import ProductGrid from '../ui/shared/products/product-grid'
 
 
 export default function Discounts() {

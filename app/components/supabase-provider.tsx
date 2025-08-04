@@ -1,6 +1,6 @@
-'use client';
+'use client'
 
-import { createClient } from '../lib/supabase';
+import { createClient } from '../lib/supabase'
 
 interface SupabaseProviderProps {
   children: React.ReactNode;
@@ -8,7 +8,7 @@ interface SupabaseProviderProps {
 
 export default function SupabaseProvider({ children }: SupabaseProviderProps) {
   // Si no hay configuración de Supabase en desarrollo, mostrar mensaje
-  const supabase = createClient();
+  const supabase = createClient()
   
   if (!supabase && process.env.NODE_ENV === 'development') {
     return (
@@ -26,8 +26,8 @@ export default function SupabaseProvider({ children }: SupabaseProviderProps) {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
-  return <>{children}</>;
+  return <>{children}</>
 }

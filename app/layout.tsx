@@ -1,22 +1,22 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
+import type { Metadata } from 'next'
+import localFont from 'next/font/local'
 
-import "./globals.css";
-import { getUnderConstructionStatus } from "./lib/env-data";
-import UnderConstruction from "./components/under-construction";
-import ConditionalLayout from "./ui/shared/conditional-layout";
+import './globals.css'
+import { getUnderConstructionStatus } from './lib/env-data'
+import UnderConstruction from './components/under-construction'
+import ConditionalLayout from './ui/shared/conditional-layout'
 
 const comfortaa = localFont({
-  src: "../public/fonts/Comfortaa-Regular.woff2",
-  variable: "--font-comfortaa",
-  display: "swap",
-});
+  src: '../public/fonts/Comfortaa-Regular.woff2',
+  variable: '--font-comfortaa',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
-  title: "Surcoteca",
-  description: "Tienda online de vinilos, encuentra tus favoritos",
-  themeColor: "var(--background)",
-};
+  title: 'Surcoteca',
+  description: 'Tienda online de vinilos, encuentra tus favoritos',
+  themeColor: 'var(--background)',
+}
 
 export default function RootLayout({
   children,
@@ -36,5 +36,5 @@ export default function RootLayout({
         )}
       </body>
     </html>
-  );
+  )
 }

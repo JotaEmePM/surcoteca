@@ -16,6 +16,9 @@ SUPABASE:
         [ ] Actualizar flujo de autenticación para incluir Apple
     [ ] Modificacion de permisos de lectura en Supabase
 
+CODIGO:
+    [ ] Revisar reglas de eslint
+
 LEGAL:
     [ ] Revisar términos de servicio
     [ ] Actualizar política de privacidad

@@ -1,6 +1,6 @@
-import { Product as ProductItem } from "@/app/lib/models/product";
-import Link from "next/link";
-import React from "react";
+import { Product as ProductItem } from '@/app/lib/models/product'
+import Link from 'next/link'
+import React from 'react'
 
 export default function Product(productProps: ProductItem) {
     return (<>

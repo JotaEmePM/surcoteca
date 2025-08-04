@@ -1,29 +1,29 @@
-'use client';
+'use client'
 
-import { useAuth } from '../lib/use-auth';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useAuth } from '../lib/use-auth'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export default function Profile() {
-  const { user, loading, signOut } = useAuth();
-  const router = useRouter();
+  const { user, loading, signOut } = useAuth()
+  const router = useRouter()
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push('/login');
+      router.push('/login')
     }
-  }, [user, loading, router]);
+  }, [user, loading, router])
 
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-foreground">Cargando...</div>
       </div>
-    );
+    )
   }
 
   if (!user) {
-    return null; // Se redirigirá al login
+    return null // Se redirigirá al login
   }
 
   return (
@@ -70,5 +70,5 @@ export default function Profile() {
         </button>
       </div>
     </div>
-  );
+  )
 }
