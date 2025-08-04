@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
-import { supabase } from './supabase';
+import { createClient } from './supabase';
 
 interface AuthState {
   user: User | null;
@@ -16,6 +16,8 @@ export const useAuth = () => {
   });
 
   useEffect(() => {
+    const supabase = createClient();
+    
     // Si Supabase no está configurado, marcar como no loading
     if (!supabase) {
       setAuthState({
@@ -29,7 +31,7 @@ export const useAuth = () => {
     // Obtener sesión inicial
     const getInitialSession = async () => {
       try {
-        const { data: { session } } = await supabase!.auth.getSession();
+        const { data: { session } } = await supabase.auth.getSession();
         setAuthState({
           user: session?.user ?? null,
           session,
@@ -48,7 +50,7 @@ export const useAuth = () => {
     getInitialSession();
 
     // Escuchar cambios de autenticación
-    const { data: { subscription } } = supabase!.auth.onAuthStateChange(
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         setAuthState({
           user: session?.user ?? null,
@@ -63,6 +65,8 @@ export const useAuth = () => {
 
   // Función para login con GitHub
   const signInWithGitHub = async () => {
+    const supabase = createClient();
+    
     if (!supabase) {
       return { data: null, error: new Error('Supabase not configured') };
     }
@@ -82,6 +86,8 @@ export const useAuth = () => {
 
   // Función para logout
   const signOut = async () => {
+    const supabase = createClient();
+    
     if (!supabase) {
       return { error: new Error('Supabase not configured') };
     }

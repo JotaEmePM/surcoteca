@@ -1,7 +1,42 @@
+import { createServerClient } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
+  let supabaseResponse = NextResponse.next({
+    request: req,
+  });
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  // Si no hay configuración de Supabase, continuar sin autenticación
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return supabaseResponse;
+  }
+
+  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+    cookies: {
+      getAll() {
+        return req.cookies.getAll();
+      },
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value }) => req.cookies.set(name, value));
+        supabaseResponse = NextResponse.next({
+          request: req,
+        });
+        cookiesToSet.forEach(({ name, value, options }) =>
+          supabaseResponse.cookies.set(name, value, options)
+        );
+      },
+    },
+  });
+
+  // Refrescar la sesión si es necesario
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   // Rutas que requieren autenticación
   const protectedRoutes = ['/profile', '/orders', '/admin'];
   
@@ -10,13 +45,19 @@ export async function middleware(req: NextRequest) {
     req.nextUrl.pathname.startsWith(route)
   );
 
-  // Por ahora, solo redirigimos si es una ruta protegida
-  // La verificación de sesión se hará del lado del cliente
-  if (isProtectedRoute) {
-    // Podrías agregar lógica adicional aquí si necesitas verificación del lado del servidor
+  // Si es una ruta protegida y no hay usuario, redirigir al login
+  if (isProtectedRoute && !user) {
+    const redirectUrl = new URL('/login', req.url);
+    redirectUrl.searchParams.set('redirectTo', req.nextUrl.pathname);
+    return NextResponse.redirect(redirectUrl);
   }
 
-  return NextResponse.next();
+  // Si está en login y ya tiene sesión, redirigir al inicio
+  if (req.nextUrl.pathname === '/login' && user) {
+    return NextResponse.redirect(new URL('/', req.url));
+  }
+
+  return supabaseResponse;
 }
 
 export const config = {

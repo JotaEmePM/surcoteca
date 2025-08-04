@@ -5,7 +5,7 @@ import Logo from "./logo";
 import { IconFileSmile, IconSearch, IconShoppingCart, IconUser, IconLogout } from "@tabler/icons-react";
 import { useAuth } from "../../lib/use-auth";
 import { useState, useEffect } from "react";
-import { supabase } from "../../lib/supabase";
+import { createClient } from "../../lib/supabase";
 
 export default function Header() {
     const { user, signOut, loading } = useAuth();
@@ -13,6 +13,7 @@ export default function Header() {
     const [isSupabaseConfigured, setIsSupabaseConfigured] = useState(true);
 
     useEffect(() => {
+        const supabase = createClient();
         setIsSupabaseConfigured(!!supabase);
     }, []);
 
