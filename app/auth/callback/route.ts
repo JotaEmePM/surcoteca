@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
-import { sendWelcomeEmail, isNewUser, type EmailUser } from '@/app/lib/email-service'
+import { sendWelcomeEmail, type EmailUser } from '@/app/lib/email-service'
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
 
   if (!supabaseUrl || !supabaseAnonKey) {
     console.error('Supabase environment variables not configured')
-    return NextResponse.redirect(new URL('/login?error=config_error', requestUrl.origin))
+    return NextResponse.redirect(new URL('/error?error=config_error', requestUrl.origin))
   }
 
   if (code) {
@@ -37,18 +37,17 @@ export async function GET(request: NextRequest) {
 
       if (!error && data.user) {
         // Verificar si es un usuario nuevo y enviar email de bienvenida
-        if (isNewUser(data.user as EmailUser)) {
-          try {
-            const result = await sendWelcomeEmail(data.user as EmailUser)
-            if (result.success) {
-              console.log('Welcome email sent successfully')
-            } else {
-              console.error('Failed to send welcome email:', result.error)
-            }
-          } catch (emailError) {
-            console.error('Error sending welcome email:', emailError)
-            // No fallar la autenticación por problemas de email
+
+        try {
+          const result = await sendWelcomeEmail(data.user as EmailUser)
+          if (result.success) {
+            console.log('Welcome email sent successfully')
+          } else {
+            console.error('Failed to send welcome email:', result.error)
           }
+        } catch (emailError) {
+          console.error('Error sending welcome email:', emailError)
+          // No fallar la autenticación por problemas de email
         }
 
         // Redirigir al dashboard o página principal después del login exitoso

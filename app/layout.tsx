@@ -14,8 +14,7 @@ const comfortaa = localFont({
 
 export const metadata: Metadata = {
   title: 'Surcoteca',
-  description: 'Tienda online de vinilos, encuentra tus favoritos',
-  themeColor: 'var(--background)',
+  description: 'Tienda online de vinilos, encuentra tus favoritos'
 }
 
 export default function RootLayout({
@@ -25,8 +24,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
+
+      <meta name="theme-color" content="#161d1c" />
+
       <body className={`${comfortaa.variable} antialiased`}>
-      
+
         {getUnderConstructionStatus() ? (
           <UnderConstruction />
         ) : (
