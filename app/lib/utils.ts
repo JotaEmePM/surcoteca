@@ -17,6 +17,7 @@ export const useBaseUrl = () => {
   }
   
   // En el servidor, usar la variable de entorno o fallback
+  console.log('1.Base URL en el servidor:', process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000');
   return process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 };
 
@@ -30,5 +31,7 @@ export const getBaseUrl = () => {
   }
   
   // En el servidor
+  console.log('2.Base URL en el servidor:', process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000');
+
   return process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 };
