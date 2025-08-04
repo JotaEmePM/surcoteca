@@ -20,14 +20,15 @@ export default function Header() {
             <div className="flex items-center gap-8">
                     <Link href="/">
                 <div className="flex items-center gap-4 text-white">
-                        <div className="size-4 items-center">
-                            <Logo />
-                        </div>
+                        <div className="flex items-center justify-center h-6 w-6">
+    <Logo />
+</div>
                         <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Surcoteca</h2>
                 </div>
                     </Link>
                 <div className="flex items-center gap-9">
                     <Link href="/" className="text-white text-sm font-medium leading-normal hover:text-cyan-100 transition-colors">Inicio</Link>
+                    <Link href="/" className="text-white text-sm font-medium leading-normal">Categorias</Link>
                     <Link href="/" className="text-white text-sm font-medium leading-normal">Ofertas</Link>
                     <Link href="/" className="text-white text-sm font-medium leading-normal">Novedades</Link>
                     <Link href="/" className="text-white text-sm font-medium leading-normal">Otros productos</Link>
@@ -41,7 +42,7 @@ export default function Header() {
                             data-icon="MagnifyingGlass" data-size="24px" data-weight="regular">
                             <IconSearch />
                         </div>
-                        <input placeholder="Search"
+                        <input placeholder="Buscar productos..."
                             className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-[#244740] focus:border-none h-full placeholder:text-[#93c8bd] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
                             value="" onChange={handleSearchChange} onClick={handleSearchSubmit} />
                     </div>

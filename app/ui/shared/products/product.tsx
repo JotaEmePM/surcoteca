@@ -9,7 +9,7 @@ export default function Product(productProps: ProductItem) {
                 <div className="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg"
                     style={{ backgroundImage: 'url("https://placehold.co/100x100")' }}>
                 </div>
-                <div>
+                <div className="pl-1">
                     <p className="text-white text-base font-medium leading-normal">{productProps.label}</p>
                     <p className="text-[#93c8bd] text-sm font-normal leading-normal">{productProps.author}</p>
                     <p className="text-[#93c8bd] text-sm font-normal leading-normal">${productProps.price.toLocaleString('es-CL')}</p>
