@@ -73,8 +73,8 @@ export const useAuth = () => {
     }
 
     try {
-      const redirectTo = `${getBaseUrl()}/auth/callback`;
-
+      const redirectTo = `https://www.surcoteca.cl/auth/callback`;
+console.log('Redirect URL:', redirectTo);
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'github',
         options: {
