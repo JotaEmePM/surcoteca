@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
 
       if (!error && data.user) {
         // Verificar si es un usuario nuevo y enviar email de bienvenida
-        const response_data_user = await supabase.from('public.users').select(`
+        const response_data_user = await supabase.from('users').select(`
           id,
           name,
           welcome_sent
