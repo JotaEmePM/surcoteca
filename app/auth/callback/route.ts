@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
           welcome_sent
         `).filter('id', 'eq', data.user.id)
 
-        console.log(`response_data_user: ${response_data_user}`)
+        console.log(`response_data_user: ${JSON.stringify(response_data_user)}`)
 
 
         try {
