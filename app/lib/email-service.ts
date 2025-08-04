@@ -2,6 +2,7 @@ import { render } from '@react-email/render'
 import React from 'react'
 import { resend, RESEND_CONFIG } from './resend'
 import { WelcomeEmail } from './email-templates'
+import type { CreateEmailOptions } from 'resend'
 
 export interface EmailUser {
     id: string
@@ -12,9 +13,9 @@ export interface EmailUser {
         avatar_url?: string
         provider?: string
     }
-}
-
-/**
+    created_at?: string
+    last_sign_in_at?: string
+}/**
  * Envía un correo de bienvenida a un nuevo usuario
  */
 export async function sendWelcomeEmail(user: EmailUser) {
@@ -94,7 +95,8 @@ export async function sendEmail({
     }
 
     try {
-        const emailOptions: any = {
+        // Construir las opciones base
+        const baseOptions = {
             from: RESEND_CONFIG.from,
             to,
             replyTo: RESEND_CONFIG.replyTo,
@@ -102,11 +104,18 @@ export async function sendEmail({
             tags,
         }
 
-        if (html) {
-            emailOptions.html = html
-        }
-        if (text) {
-            emailOptions.text = text
+        // Crear las opciones finales según el contenido disponible
+        let emailOptions: CreateEmailOptions
+
+        if (html && text) {
+            emailOptions = { ...baseOptions, html, text }
+        } else if (html) {
+            emailOptions = { ...baseOptions, html }
+        } else if (text) {
+            emailOptions = { ...baseOptions, text }
+        } else {
+            // Esto no debería pasar debido a la validación anterior
+            throw new Error('Either html or text must be provided')
         }
 
         const { data, error } = await resend.emails.send(emailOptions)
@@ -136,12 +145,12 @@ export async function sendEmail({
 export function isNewUser(user: EmailUser): boolean {
     try {
         // Si no tenemos las fechas, asumimos que es nuevo para seguridad
-        if (!(user as any).created_at || !(user as any).last_sign_in_at) {
+        if (!user.created_at || !user.last_sign_in_at) {
             return true
         }
 
-        const createdAt = new Date((user as any).created_at)
-        const lastSignIn = new Date((user as any).last_sign_in_at)
+        const createdAt = new Date(user.created_at)
+        const lastSignIn = new Date(user.last_sign_in_at)
 
         // Diferencia en minutos
         const diffInMinutes = Math.abs(lastSignIn.getTime() - createdAt.getTime()) / (1000 * 60)

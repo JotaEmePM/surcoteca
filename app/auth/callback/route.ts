@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
-import { sendWelcomeEmail, isNewUser } from '@/app/lib/email-service'
+import { sendWelcomeEmail, isNewUser, type EmailUser } from '@/app/lib/email-service'
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
@@ -37,9 +37,9 @@ export async function GET(request: NextRequest) {
 
       if (!error && data.user) {
         // Verificar si es un usuario nuevo y enviar email de bienvenida
-        if (isNewUser(data.user as any)) {
+        if (isNewUser(data.user as EmailUser)) {
           try {
-            const result = await sendWelcomeEmail(data.user as any)
+            const result = await sendWelcomeEmail(data.user as EmailUser)
             if (result.success) {
               console.log('Welcome email sent successfully')
             } else {
