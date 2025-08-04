@@ -73,8 +73,8 @@ export const useAuth = () => {
     }
 
     try {
-      const redirectTo = `https://www.surcoteca.cl/auth/callback`;
-      console.log('Redirect URL:', redirectTo);
+      const redirectTo = `${getBaseUrl()}/auth/callback`;
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'github',
         options: {
@@ -96,8 +96,8 @@ export const useAuth = () => {
     }
 
     try {
-      const redirectTo = `https://www.surcoteca.cl/auth/callback`;
-      console.log('Redirect URL:', redirectTo);
+      const redirectTo = `${getBaseUrl()}/auth/callback`;
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -119,8 +119,8 @@ export const useAuth = () => {
     }
 
     try {
-      const redirectTo = `https://www.surcoteca.cl/auth/callback`;
-      console.log('Redirect URL:', redirectTo);
+      const redirectTo = `${getBaseUrl()}/auth/callback`;
+      
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {

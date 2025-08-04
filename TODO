@@ -1,0 +1,26 @@
+EMAIL:
+    [ ] Implementar envio de correos con RESEND
+        [ ] Bienvenida
+        [ ] Verificación de email
+        [ ] Notificaciones de eventos importantes
+    [ ] Implementar forma de usar plantillas de correo
+        [ ] Crear plantillas para correos comunes
+        [ ] Integrar con el sistema de envío de correos
+
+SUPABASE: 
+    [ ] Implementar autenticación con Facebook en Supabase
+        [ ] Configurar OAuth en Supabase
+        [ ] Actualizar flujo de autenticación para incluir Facebook
+    [ ] Implementar autenticación con Apple en Supabase
+        [ ] Configurar OAuth en Supabase
+        [ ] Actualizar flujo de autenticación para incluir Apple
+    [ ] Modificacion de permisos de lectura en Supabase
+
+LEGAL:
+    [ ] Revisar términos de servicio
+    [ ] Actualizar política de privacidad
+    [ ] Creacion de empresa
+    [ ] Contacto con contador
+
+Empresa:
+    [ ] Crear empresa
