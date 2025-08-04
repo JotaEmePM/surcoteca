@@ -1,18 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Surcoteca - Tienda de Vinilos
 
-## Getting Started
+Este es un proyecto de [Next.js](https://nextjs.org) con autenticación Supabase y OAuth con GitHub.
 
-First, run the development server:
+## 🚀 Getting Started
+
+### 1. Configurar variables de entorno
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Copia el archivo de ejemplo
+cp .env.local.example .env.local
 ```
+
+Edita `.env.local` con tus valores reales:
+
+```bash
+# Environment
+UNDER_CONSTRUCTION=false
+
+# Site URL (importante para OAuth redirects)
+NEXT_PUBLIC_SITE_URL=http://localhost:3000  # En desarrollo
+# NEXT_PUBLIC_SITE_URL=https://tu-dominio.vercel.app  # En producción
+
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=tu_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_supabase_anon_key
+```
+
+### 2. Instalar dependencias y ejecutar
+
+```bash
+pnpm install
+pnpm dev
+```
+
+Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+
+## 🔐 Configuración de Supabase OAuth
+
+### En Supabase:
+1. Ve a Authentication > Providers
+2. Habilita GitHub
+3. Configura las URLs:
+   - **Site URL**: `https://tu-dominio.vercel.app` (producción)
+   - **Redirect URLs**: `https://tu-dominio.vercel.app/auth/callback`
+
+### En GitHub:
+1. Ve a Settings > Developer settings > OAuth Apps  
+2. Crea una nueva OAuth App:
+   - **Authorization callback URL**: `https://tu-proyecto.supabase.co/auth/v1/callback`
+3. Copia Client ID y Client Secret a Supabase
+
+## 🚀 Deploy en Vercel
+
+### Variables de entorno requeridas en Vercel:
+```bash
+NEXT_PUBLIC_SITE_URL=https://tu-dominio.vercel.app
+NEXT_PUBLIC_SUPABASE_URL=tu_supabase_url  
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_supabase_anon_key
+UNDER_CONSTRUCTION=false
+```
+
+### Configurar en Vercel:
+1. Ve a tu proyecto en Vercel Dashboard
+2. Settings > Environment Variables
+3. Añade todas las variables mencionadas arriba
+4. Redeploy el proyecto
+
+## 🛠️ Tecnologías
+
+- **Next.js 15** - Framework React
+- **Supabase** - Backend como servicio
+- **@supabase/ssr** - Autenticación server-side  
+- **Tailwind CSS** - Estilos
+- **TypeScript** - Tipado estático
+- **GitHub OAuth** - Autenticación social
+
+## 📱 Rutas disponibles
+
+- `/` - Página principal
+- `/login` - Iniciar sesión con GitHub
+- `/profile` - Perfil de usuario (Client Component)
+- `/server-profile` - Perfil de usuario (Server Component)
+- `/auth/callback` - Callback de OAuth
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { createClient } from './supabase';
+import { getBaseUrl } from './utils';
 
 interface AuthState {
   user: User | null;
@@ -72,10 +73,12 @@ export const useAuth = () => {
     }
 
     try {
+      const redirectTo = `${getBaseUrl()}/auth/callback`;
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'github',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo,
         },
       });
       return { data, error };
