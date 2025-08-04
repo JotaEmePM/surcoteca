@@ -15,7 +15,7 @@ const comfortaa = localFont({
 export const metadata: Metadata = {
   title: "Surcoteca",
   description: "Tienda online de vinilos, encuentra tus favoritos",
-  themeColor: "#161d1c",
+  themeColor: "var(--background)",
 };
 
 export default function RootLayout({

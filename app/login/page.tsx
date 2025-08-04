@@ -5,58 +5,58 @@ export default function Login() {
   return (
     <>
       
-      <div className="min-h-screen bg-[#161d1c] flex items-center justify-center">
-        <div className="bg-[#1f2a29] rounded-2xl shadow-lg p-8 w-full max-w-md mx-4">
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="bg-secondary rounded-2xl shadow-lg p-8 w-full max-w-md mx-4">
           {/* Logo */}
           <div className="flex justify-center mb-6">
 
-            <IconPasswordFingerprint className="h-8 w-8 text-indigo-500" />
+            <IconPasswordFingerprint className="h-8 w-8 text-primary" />
           </div>
 
           {/* Title */}
-          <h2 className="text-center text-white text-2xl font-bold mb-6">
+          <h2 className="text-center text-foreground text-2xl font-bold mb-6">
             Accede a tu cuenta
           </h2>
 
           {/* Form */}
           <form className="space-y-4">
             <div>
-              <label className="block text-gray-300 text-sm mb-1">
+              <label className="block text-muted-foreground text-sm mb-1">
                 Email
               </label>
               <input
                 type="email"
-                className="w-full px-4 py-2 rounded-md bg-[#2e3b39] text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2 rounded-md bg-muted text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 required
               />
             </div>
             <div>
-              <label className="block text-gray-300 text-sm mb-1">
+              <label className="block text-muted-foreground text-sm mb-1">
                 Password
               </label>
               <input
                 type="password"
-                className="w-full px-4 py-2 rounded-md bg-[#2e3b39] text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2 rounded-md bg-muted text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 required
               />
             </div>
 
-            <div className="flex items-center justify-between text-sm text-gray-300">
+            <div className="flex items-center justify-between text-sm text-muted-foreground">
               <label className="flex items-center">
                 <input
                   type="checkbox"
-                  className="form-checkbox text-indigo-500"
+                  className="form-checkbox text-primary"
                 />
                 <span className="ml-2">Recordarme</span>
               </label>
-              <a href="#" className="text-indigo-400 hover:underline">
+              <a href="#" className="text-primary hover:underline">
                 ¿Olvidaste tu contraseña?
               </a>
             </div>
 
             <button
               type="submit"
-              className="w-full py-2 rounded-md bg-[#93c8bd] hover:bg-[#7fb5ac] text-[#0e1918] hover:text-[#0e1918] font-semibold"
+              className="w-full py-2 rounded-md bg-primary hover:bg-primary-hover text-primary-foreground font-semibold"
             >
               Acceder
             </button>
@@ -64,9 +64,9 @@ export default function Login() {
 
           {/* Divider */}
           <div className="flex items-center my-6">
-            <div className="flex-grow border-t border-gray-600"></div>
-            <span className="mx-4 text-gray-400 text-sm">O continuar con</span>
-            <div className="flex-grow border-t border-gray-600"></div>
+            <div className="flex-grow border-t border-muted"></div>
+            <span className="mx-4 text-muted-foreground text-sm">O continuar con</span>
+            <div className="flex-grow border-t border-muted"></div>
           </div>
 
           {/* Social Buttons */}
@@ -74,7 +74,7 @@ export default function Login() {
             
             <button
               type="button"
-              className="flex-1 py-2 border border-gray-600 text-white rounded-md flex items-center justify-center gap-2 hover:bg-gray-700"
+              className="flex-1 py-2 border border-muted text-foreground rounded-md flex items-center justify-center gap-2 hover:bg-muted"
             >
               <IconBrandGithub className="h-5 w-5" />
               GitHub
@@ -82,9 +82,9 @@ export default function Login() {
           </div>
 
           {/* Footer */}
-          <p className="text-center text-sm text-gray-400 mt-6">
+          <p className="text-center text-sm text-muted-foreground mt-6">
             ¿Aún no te registras?{' '}
-            <a href="#" className="text-indigo-400 hover:underline">
+            <a href="#" className="text-primary hover:underline">
               Regístrate aquí
             </a>
           </p>

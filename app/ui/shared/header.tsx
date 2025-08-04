@@ -38,12 +38,12 @@ export default function Header() {
                 <label className="flex flex-col min-w-40 !h-10 max-w-64">
                     <div className="flex w-full flex-1 items-stretch rounded-lg h-full">
                         <div
-                            className="text-[#93c8bd] flex border-none bg-[#244740] items-center justify-center pl-4 rounded-l-lg border-r-0"
+                            className="text-primary flex border-none bg-muted items-center justify-center pl-4 rounded-l-lg border-r-0"
                             data-icon="MagnifyingGlass" data-size="24px" data-weight="regular">
                             <IconSearch />
                         </div>
                         <input placeholder="Buscar productos..."
-                            className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-none bg-[#244740] focus:border-none h-full placeholder:text-[#93c8bd] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
+                            className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-foreground focus:outline-0 focus:ring-0 border-none bg-muted focus:border-none h-full placeholder:text-primary px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
                             value="" onChange={handleSearchChange} onClick={handleSearchSubmit} />
                     </div>
                 </label>

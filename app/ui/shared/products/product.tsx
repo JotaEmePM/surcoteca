@@ -11,8 +11,8 @@ export default function Product(productProps: ProductItem) {
                 </div>
                 <div className="pl-1">
                     <p className="text-white text-base font-medium leading-normal">{productProps.label}</p>
-                    <p className="text-[#93c8bd] text-sm font-normal leading-normal">{productProps.author}</p>
-                    <p className="text-[#93c8bd] text-sm font-normal leading-normal">${productProps.price.toLocaleString('es-CL')}</p>
+                    <p className="text-primary text-sm font-normal leading-normal">{productProps.author}</p>
+                    <p className="text-primary text-sm font-normal leading-normal">${productProps.price.toLocaleString('es-CL')}</p>
                 </div>
             </Link>
         </div>
