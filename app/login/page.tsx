@@ -3,9 +3,9 @@
 import { IconBrandGithub, IconPasswordFingerprint } from '@tabler/icons-react';
 import { useAuth } from '../lib/use-auth';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 
-export default function Login() {
+function LoginForm() {
   const { signInWithGitHub, user, loading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -24,6 +24,8 @@ export default function Login() {
     const errorParam = searchParams.get('error');
     if (errorParam === 'auth_error') {
       setError('Hubo un problema con la autenticación. Inténtalo de nuevo.');
+    } else if (errorParam === 'config_error') {
+      setError('La aplicación no está configurada correctamente. Contacta al administrador.');
     }
   }, [searchParams]);
 
@@ -145,5 +147,21 @@ export default function Login() {
         </div>
       </div>
     </>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="text-foreground">Cargando página de login...</div>
+    </div>
+  );
+}
+
+export default function Login() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <LoginForm />
+    </Suspense>
   );
 }

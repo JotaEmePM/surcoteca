@@ -4,11 +4,17 @@ import Link from "next/dist/client/link";
 import Logo from "./logo";
 import { IconFileSmile, IconSearch, IconShoppingCart, IconUser, IconLogout } from "@tabler/icons-react";
 import { useAuth } from "../../lib/use-auth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "../../lib/supabase";
 
 export default function Header() {
     const { user, signOut, loading } = useAuth();
     const [showDropdown, setShowDropdown] = useState(false);
+    const [isSupabaseConfigured, setIsSupabaseConfigured] = useState(true);
+
+    useEffect(() => {
+        setIsSupabaseConfigured(!!supabase);
+    }, []);
 
     const handleSearchSubmit = () => {
         console.log('search')
@@ -56,62 +62,72 @@ export default function Header() {
                     </div>
                 </label>
                 <div className="flex gap-2 relative">
-                    {user ? (
-                        <div className="relative">
-                            <button
-                                onClick={() => setShowDropdown(!showDropdown)}
-                                className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#244740] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
-                            >
-                                {user.user_metadata?.avatar_url ? (
-                                    <img 
-                                        src={user.user_metadata.avatar_url} 
-                                        alt="Avatar" 
-                                        className="w-6 h-6 rounded-full"
-                                    />
-                                ) : (
-                                    <IconUser />
-                                )}
-                                <span className="hidden sm:inline">{user.user_metadata?.full_name || user.email}</span>
-                            </button>
-                            
-                            {showDropdown && (
-                                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
-                                    <div className="py-1">
-                                        <Link 
-                                            href="/profile" 
-                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                            onClick={() => setShowDropdown(false)}
-                                        >
-                                            Mi Perfil
-                                        </Link>
-                                        <Link 
-                                            href="/orders" 
-                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                            onClick={() => setShowDropdown(false)}
-                                        >
-                                            Mis Pedidos
-                                        </Link>
-                                        <hr className="my-1" />
-                                        <button
-                                            onClick={handleSignOut}
-                                            className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                                        >
-                                            <IconLogout className="inline mr-2 h-4 w-4" />
-                                            Cerrar Sesión
-                                        </button>
+                    {isSupabaseConfigured ? (
+                        user ? (
+                            <div className="relative">
+                                <button
+                                    onClick={() => setShowDropdown(!showDropdown)}
+                                    className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#244740] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+                                >
+                                    {user.user_metadata?.avatar_url ? (
+                                        <img 
+                                            src={user.user_metadata.avatar_url} 
+                                            alt="Avatar" 
+                                            className="w-6 h-6 rounded-full"
+                                        />
+                                    ) : (
+                                        <IconUser />
+                                    )}
+                                    <span className="hidden sm:inline">{user.user_metadata?.full_name || user.email}</span>
+                                </button>
+                                
+                                {showDropdown && (
+                                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
+                                        <div className="py-1">
+                                            <Link 
+                                                href="/profile" 
+                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                onClick={() => setShowDropdown(false)}
+                                            >
+                                                Mi Perfil
+                                            </Link>
+                                            <Link 
+                                                href="/orders" 
+                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                onClick={() => setShowDropdown(false)}
+                                            >
+                                                Mis Pedidos
+                                            </Link>
+                                            <hr className="my-1" />
+                                            <button
+                                                onClick={handleSignOut}
+                                                className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                                            >
+                                                <IconLogout className="inline mr-2 h-4 w-4" />
+                                                Cerrar Sesión
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            )}
-                        </div>
+                                )}
+                            </div>
+                        ) : (
+                            <Link href="/login">
+                                <button
+                                    className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#244740] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+                                >
+                                    <IconUser />
+                                    <span className="hidden sm:inline">Iniciar Sesión</span>
+                                </button>
+                            </Link>
+                        )
                     ) : (
-                        <Link href="/login">
-                            <button
-                                className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#244740] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
-                            >
-                                <IconUser />
-                                <span className="hidden sm:inline">Iniciar Sesión</span>
-                            </button>
-                        </Link>
+                        <button
+                            disabled
+                            className="flex max-w-[480px] cursor-not-allowed items-center justify-center overflow-hidden rounded-lg h-10 bg-gray-400 text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 opacity-50"
+                        >
+                            <IconUser />
+                            <span className="hidden sm:inline">Login No Disponible</span>
+                        </button>
                     )}
                     
                     <button
