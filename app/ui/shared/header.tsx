@@ -29,7 +29,7 @@ export default function Header() {
                 const supabase_category = new SupabaseCategory()
 
                 const data_categories = await supabase_category.getCategories()
-                setCategories(data_categories)
+
 
                 const submenuCategories: SubMenuHeaderDropdowInterface[] = []
                 data_categories
