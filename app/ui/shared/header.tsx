@@ -2,13 +2,13 @@
 
 import Link from 'next/dist/client/link'
 import Logo from './logo'
-import { IconFileSmile, IconSearch, IconShoppingCart, IconUser, IconLogout, IconCaretDown } from '@tabler/icons-react'
+import { IconSearch, IconShoppingCart, IconUser, IconLogout } from '@tabler/icons-react'
 import { useAuth } from '../../lib/use-auth'
 import { useState, useEffect } from 'react'
 import { createClient } from '../../lib/supabase/supabase'
 import { getCategories } from '../../lib/supabase/data-client'
 import { Category } from '../../lib/models/categories'
-import Dropdown, { SubMenuHeaderDropdowInterface } from './header/menu-header-dropdown'
+import { SubMenuHeaderDropdowInterface } from './header/menu-header-dropdown'
 import MenuHeaderDropdown from './header/menu-header-dropdown'
 
 
@@ -17,8 +17,9 @@ export default function Header() {
     const [showDropdown, setShowDropdown] = useState(false)
     const [isSupabaseConfigured, setIsSupabaseConfigured] = useState(true)
 
-    const [categories, setCategories] = useState<Category[]>([])
     const [menuCategories, setMenuCategories] = useState<SubMenuHeaderDropdowInterface[]>([])
+
+    console.log('Header user', user)
 
     useEffect(() => {
         const supabase = createClient()
@@ -26,7 +27,6 @@ export default function Header() {
 
         const fetchData = async () => {
             const data_categories = await getCategories()
-            setCategories(data_categories)
 
             const submenuCategories: SubMenuHeaderDropdowInterface[] = []
             data_categories
@@ -39,8 +39,6 @@ export default function Header() {
                     })
                 })
             setMenuCategories(submenuCategories)
-
-
         }
 
         fetchData()
