@@ -39,8 +39,8 @@ export default function Header() {
                 })
             setMenuCategories(submenuCategories)
 
-            console.log(`categories: ${categories}`)
-            console.log(`menuCategories: ${menuCategories}`)
+            console.log(`categories: ${JSON.stringify(categories)}`)
+            console.log(`menuCategories: ${JSON.stringify(menuCategories)}`)
         }
 
         fetchData()
