@@ -38,6 +38,9 @@ export default function Header() {
                     })
                 })
             setMenuCategories(submenuCategories)
+
+            console.log(`categories: ${categories}`)
+            console.log(`menuCategories: ${menuCategories}`)
         }
 
         fetchData()
@@ -73,13 +76,6 @@ export default function Header() {
                     <Link href="/" className="text-white text-sm font-medium leading-normal">Ofertas</Link>
                     <Link href="/" className="text-white text-sm font-medium leading-normal">Novedades</Link>
                     <Link href="/" className="text-white text-sm font-medium leading-normal">Otros productos</Link>
-                    <span>
-
-                        {categories.map((cat) => (
-                            <Link href={cat.id} key={cat.id}>{cat.name}</Link>
-                        ))}
-
-                    </span>
                 </div>
             </div>
             <div className="flex flex-1 justify-end gap-8">
