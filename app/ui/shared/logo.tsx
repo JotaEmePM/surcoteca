@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react'
 
 export default function Logo() {
     const [selectedIcon, setSelectedIcon] = useState<React.ComponentType<{ width?: number; height?: number; className?: string }>>(IconDisc)
-    
+
     const icons = [
         IconDisc,
         IconAlbum,
@@ -230,7 +230,7 @@ export default function Logo() {
     useEffect(() => {
         const randomIcon = getRandomItem(icons) || IconDisc
         setSelectedIcon(randomIcon)
-    }, [])
+    }, [icons])
 
     return (
         <>

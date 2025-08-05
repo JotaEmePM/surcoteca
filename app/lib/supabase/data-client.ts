@@ -1,7 +1,7 @@
-import { SupabaseClient } from "@supabase/supabase-js"
-import { Category } from "../models/categories"
-import { Product } from "../models/product"
-import { supabase, createClient } from "./supabase"
+import { SupabaseClient } from '@supabase/supabase-js'
+import { Category } from '../models/categories'
+import { Product } from '../models/product'
+import { supabase, createClient } from './supabase'
 
 
 const getCategories = async () => {
@@ -21,7 +21,7 @@ const getCategories = async () => {
 }
 
 const getRandomProducts = (): Product[] => {
-    let products: Product[] = []
+    const products: Product[] = []
 
     return products
 }

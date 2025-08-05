@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
           console.log('Failed query user data', response_data_user.error)
         }
 
-        let user_welcome_sent: UserEmailSentInterface[] | null = response_data_user.data
+        const user_welcome_sent: UserEmailSentInterface[] | null = response_data_user.data
         if (user_welcome_sent && !user_welcome_sent[0].welcome_sent) {
           try {
             const result = await sendWelcomeEmail(data.user as EmailUser)

@@ -7,13 +7,14 @@ import { useAuth } from '../../lib/use-auth'
 import { useState, useEffect } from 'react'
 import { createClient } from '../../lib/supabase/supabase'
 import { getCategories } from '../../lib/supabase/data-client'
+import { Category } from '../../lib/models/categories'
 
 
 export default function Header() {
     const { user, signOut, loading } = useAuth()
     const [showDropdown, setShowDropdown] = useState(false)
     const [isSupabaseConfigured, setIsSupabaseConfigured] = useState(true)
-    const [categories, setCategories] = useState<any[]>([])
+    const [categories, setCategories] = useState<Category[]>([])
 
     useEffect(() => {
         const supabase = createClient()
