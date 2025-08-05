@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
-import { sendWelcomeEmail, type EmailUser } from '@/app/lib/email-service'
+import { sendWelcomeEmail, type EmailUser } from '@/lib/email-service'
 import { UserEmailSentInterface } from '../../models/user-email-sent.interface'
 
 export async function GET(request: NextRequest) {
