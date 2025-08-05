@@ -1,6 +1,6 @@
-import { IconCaretDown } from "@tabler/icons-react"
-import Link from "next/link"
-import { useState } from "react"
+import { IconCaretDown } from '@tabler/icons-react'
+import Link from 'next/link'
+import { useState } from 'react'
 
 export type SubMenuHeaderDropdowInterface = {
     id: string
@@ -28,6 +28,7 @@ export default function MenuHeaderDropdown({ name, submenuItems }: MenuHeaderDro
 
                         {submenuItems.map((cat) => (
                             <Link
+                                key={cat.id}
                                 id={cat.id}
                                 href={`/category/${cat.id}`}
                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

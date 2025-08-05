@@ -28,7 +28,7 @@ export default function Header() {
             const data_categories = await getCategories()
             setCategories(data_categories)
 
-            let submenuCategories: SubMenuHeaderDropdowInterface[] = []
+            const submenuCategories: SubMenuHeaderDropdowInterface[] = []
             categories
                 .sort((a, b) => a.order - b.order)
                 .map((cat) => {
