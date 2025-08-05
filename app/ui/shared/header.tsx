@@ -8,13 +8,17 @@ import { useState, useEffect } from 'react'
 import { createClient } from '../../lib/supabase/supabase'
 import { getCategories } from '../../lib/supabase/data-client'
 import { Category } from '../../lib/models/categories'
+import Dropdown, { SubMenuHeaderDropdowInterface } from './header/menu-header-dropdown'
+import MenuHeaderDropdown from './header/menu-header-dropdown'
 
 
 export default function Header() {
     const { user, signOut, loading } = useAuth()
     const [showDropdown, setShowDropdown] = useState(false)
     const [isSupabaseConfigured, setIsSupabaseConfigured] = useState(true)
+
     const [categories, setCategories] = useState<Category[]>([])
+    const [menuCategories, setMenuCategories] = useState<SubMenuHeaderDropdowInterface[]>([])
 
     useEffect(() => {
         const supabase = createClient()
@@ -23,6 +27,17 @@ export default function Header() {
         const fetchData = async () => {
             const data_categories = await getCategories()
             setCategories(data_categories)
+
+            let submenuCategories: SubMenuHeaderDropdowInterface[] = []
+            categories
+                .sort((a, b) => a.order - b.order)
+                .map((cat) => {
+                    submenuCategories.push({
+                        id: cat.id,
+                        text: cat.name
+                    })
+                })
+            setMenuCategories(submenuCategories)
         }
 
         fetchData()
@@ -54,9 +69,7 @@ export default function Header() {
                 </Link>
                 <div className="flex items-center gap-9">
                     <Link href="/" className="text-white text-sm font-medium leading-normal hover:text-cyan-100 transition-colors">Inicio</Link>
-                    <Link href="/categories" className="text-white text-sm font-medium leading-normal flex">
-                        Categorias <IconCaretDown />
-                    </Link>
+                    <MenuHeaderDropdown name="Categorias" submenuItems={menuCategories} />
                     <Link href="/" className="text-white text-sm font-medium leading-normal">Ofertas</Link>
                     <Link href="/" className="text-white text-sm font-medium leading-normal">Novedades</Link>
                     <Link href="/" className="text-white text-sm font-medium leading-normal">Otros productos</Link>

@@ -1,6 +1,7 @@
 export interface Category {
     id: string
-    name: string
+    name: string,
+    order: number
     hasProducts?: boolean
     hasDiscounts?: boolean
 }
