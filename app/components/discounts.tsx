@@ -10,7 +10,9 @@ export default function Discounts() {
             author: 'Radiohead',
             discount: 0,
             image: 'https://placehold.co/100x100',
-            price: 1000
+            price: 1000,
+            status: 'nuevo',
+            type: "vinilo"
         },
         {
             id: '2',
@@ -18,7 +20,9 @@ export default function Discounts() {
             author: 'Radiohead',
             discount: 0,
             image: 'https://placehold.co/100x100',
-            price: 23000
+            price: 23000,
+            status: 'nuevo',
+            type: "vinilo"
         },
         {
             id: '3',
@@ -26,7 +30,9 @@ export default function Discounts() {
             author: 'Radiohead',
             discount: 20000,
             image: 'https://placehold.co/100x100',
-            price: 23000
+            price: 23000,
+            status: 'nuevo',
+            type: "vinilo"
         },
         {
             id: '4',
@@ -34,7 +40,9 @@ export default function Discounts() {
             author: 'Radiohead',
             discount: 20000,
             image: 'https://placehold.co/100x100',
-            price: 23000
+            price: 23000,
+            status: 'nuevo',
+            type: "vinilo"
         },
         {
             id: '5',
@@ -42,7 +50,9 @@ export default function Discounts() {
             author: 'Radiohead',
             discount: 20000,
             image: 'https://placehold.co/100x100',
-            price: 23000
+            price: 23000,
+            status: 'nuevo',
+            type: "vinilo"
         }
     ]
     return <>
