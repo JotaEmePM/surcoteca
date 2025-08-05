@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { User, Session } from '@supabase/supabase-js'
-import { createClient } from './supabase'
+import { createClient } from './supabase/supabase'
 import { getBaseUrl } from './utils'
 
 interface AuthState {
@@ -18,7 +18,7 @@ export const useAuth = () => {
 
   useEffect(() => {
     const supabase = createClient()
-    
+
     // Si Supabase no está configurado, marcar como no loading
     if (!supabase) {
       setAuthState({
@@ -67,7 +67,7 @@ export const useAuth = () => {
   // Función para login con GitHub
   const signInWithGitHub = async () => {
     const supabase = createClient()
-    
+
     if (!supabase) {
       return { data: null, error: new Error('Supabase not configured') }
     }
@@ -90,7 +90,7 @@ export const useAuth = () => {
   // Función para login con Google
   const signInWithGoogle = async () => {
     const supabase = createClient()
-    
+
     if (!supabase) {
       return { data: null, error: new Error('Supabase not configured') }
     }
@@ -113,14 +113,14 @@ export const useAuth = () => {
   // Función genérica para login con cualquier proveedor OAuth
   const signInWithProvider = async (provider: 'github' | 'google') => {
     const supabase = createClient()
-    
+
     if (!supabase) {
       return { data: null, error: new Error('Supabase not configured') }
     }
 
     try {
       const redirectTo = `${getBaseUrl()}/auth/callback`
-      
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
@@ -136,7 +136,7 @@ export const useAuth = () => {
   // Función para logout
   const signOut = async () => {
     const supabase = createClient()
-    
+
     if (!supabase) {
       return { error: new Error('Supabase not configured') }
     }

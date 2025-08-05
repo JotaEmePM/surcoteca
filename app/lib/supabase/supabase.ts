@@ -8,12 +8,12 @@ export const createClient = () => {
   if (!supabaseUrl || !supabaseAnonKey) {
     return null
   }
-  
+
   return createBrowserClient(supabaseUrl, supabaseAnonKey)
 }
 
 // Cliente legacy para compatibilidad
-export const supabase = supabaseUrl && supabaseAnonKey 
+export const supabase = supabaseUrl && supabaseAnonKey
   ? createBrowserClient(supabaseUrl, supabaseAnonKey)
   : null
 
@@ -47,6 +47,12 @@ export type Database = {
           website?: string | null;
         };
       };
-    };
+    },
+    categories: {
+      Row: {
+        id: string
+        name: string
+      }
+    }
   };
 };

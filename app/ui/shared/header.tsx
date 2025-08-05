@@ -2,19 +2,29 @@
 
 import Link from 'next/dist/client/link'
 import Logo from './logo'
-import { IconFileSmile, IconSearch, IconShoppingCart, IconUser, IconLogout } from '@tabler/icons-react'
+import { IconFileSmile, IconSearch, IconShoppingCart, IconUser, IconLogout, IconCaretDown } from '@tabler/icons-react'
 import { useAuth } from '../../lib/use-auth'
 import { useState, useEffect } from 'react'
-import { createClient } from '../../lib/supabase'
+import { createClient } from '../../lib/supabase/supabase'
+import { getCategories } from '../../lib/supabase/data-client'
+
 
 export default function Header() {
     const { user, signOut, loading } = useAuth()
     const [showDropdown, setShowDropdown] = useState(false)
     const [isSupabaseConfigured, setIsSupabaseConfigured] = useState(true)
+    const [categories, setCategories] = useState<any[]>([])
 
     useEffect(() => {
         const supabase = createClient()
         setIsSupabaseConfigured(!!supabase)
+
+        const fetchData = async () => {
+            const data_categories = await getCategories()
+            setCategories(data_categories)
+        }
+
+        fetchData()
     }, [])
 
     const handleSearchSubmit = () => {
@@ -33,20 +43,29 @@ export default function Header() {
     return (
         <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#244740] px-10 py-3">
             <div className="flex items-center gap-8">
-                    <Link href="/">
-                <div className="flex items-center gap-4 text-white">
+                <Link href="/">
+                    <div className="flex items-center gap-4 text-white">
                         <div className="flex items-center justify-center h-6 w-6">
-    <Logo />
-</div>
+                            <Logo />
+                        </div>
                         <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Surcoteca</h2>
-                </div>
-                    </Link>
+                    </div>
+                </Link>
                 <div className="flex items-center gap-9">
                     <Link href="/" className="text-white text-sm font-medium leading-normal hover:text-cyan-100 transition-colors">Inicio</Link>
-                    <Link href="/" className="text-white text-sm font-medium leading-normal">Categorias</Link>
+                    <Link href="/categories" className="text-white text-sm font-medium leading-normal flex">
+                        Categorias <IconCaretDown />
+                    </Link>
                     <Link href="/" className="text-white text-sm font-medium leading-normal">Ofertas</Link>
                     <Link href="/" className="text-white text-sm font-medium leading-normal">Novedades</Link>
                     <Link href="/" className="text-white text-sm font-medium leading-normal">Otros productos</Link>
+                    <span>
+
+                        {categories.map((cat) => (
+                            <Link href={cat.id} key={cat.id}>{cat.name}</Link>
+                        ))}
+
+                    </span>
                 </div>
             </div>
             <div className="flex flex-1 justify-end gap-8">
@@ -71,9 +90,9 @@ export default function Header() {
                                     className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#244740] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
                                 >
                                     {user.user_metadata?.avatar_url ? (
-                                        <img 
-                                            src={user.user_metadata.avatar_url} 
-                                            alt="Avatar" 
+                                        <img
+                                            src={user.user_metadata.avatar_url}
+                                            alt="Avatar"
                                             className="w-6 h-6 rounded-full"
                                         />
                                     ) : (
@@ -81,19 +100,19 @@ export default function Header() {
                                     )}
                                     <span className="hidden sm:inline">{user.user_metadata?.full_name || user.email}</span>
                                 </button>
-                                
+
                                 {showDropdown && (
                                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
                                         <div className="py-1">
-                                            <Link 
-                                                href="/profile" 
+                                            <Link
+                                                href="/profile"
                                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                                 onClick={() => setShowDropdown(false)}
                                             >
                                                 Mi Perfil
                                             </Link>
-                                            <Link 
-                                                href="/orders" 
+                                            <Link
+                                                href="/orders"
                                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                                 onClick={() => setShowDropdown(false)}
                                             >
@@ -130,7 +149,7 @@ export default function Header() {
                             <span className="hidden sm:inline">Login No Disponible</span>
                         </button>
                     )}
-                    
+
                     <button
                         className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#244740] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
                     >
