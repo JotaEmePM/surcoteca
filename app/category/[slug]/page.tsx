@@ -1,7 +1,9 @@
-import { useRouter } from 'next/router'
+'use client'
+
+import { useParams } from 'next/navigation'
 
 export default function Page() {
-    const router = useRouter()
+    const { slug } = useParams()
 
-    return <p>Category: {router.query.slug}</p>
+    return <p>Category: {slug}</p>
 }
