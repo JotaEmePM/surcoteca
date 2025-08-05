@@ -20,15 +20,15 @@ const getCategories = async () => {
     return data
 }
 
-const getRandomProducts = (): Product[] => {
-    const products: Product[] = []
+// const getRandomProducts = (quantity: number): Product[] => {
+//     const products: Product[] = []
 
-    return products
-}
+//     return products
+// }
 
 
 
 export {
     getCategories,
-    getRandomProducts
+    // getRandomProducts
 }
