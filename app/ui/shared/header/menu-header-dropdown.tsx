@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 export type SubMenuHeaderDropdowInterface = {
     id: string
+    slug: string
     text: string
 }
 export interface MenuHeaderDropdownInterface {
@@ -30,7 +31,7 @@ export default function MenuHeaderDropdown({ name, submenuItems }: MenuHeaderDro
                             <Link
                                 key={cat.id}
                                 id={cat.id}
-                                href={`/category/${cat.id}`}
+                                href={`/category/${cat.slug}`}
                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 onClick={() => setShowDropdown(false)}
                             >
