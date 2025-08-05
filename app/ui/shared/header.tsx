@@ -27,7 +27,7 @@ export default function Header() {
         const fetchData = async () => {
             const data_categories = await getCategories()
             setCategories(data_categories)
-
+            console.log(`data_categories: ${JSON.stringify(data_categories)}`)
             const submenuCategories: SubMenuHeaderDropdowInterface[] = []
             categories
                 .sort((a, b) => a.order - b.order)
