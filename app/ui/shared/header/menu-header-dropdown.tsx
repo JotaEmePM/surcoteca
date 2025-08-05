@@ -27,7 +27,7 @@ export default function MenuHeaderDropdown({ name, submenuItems }: MenuHeaderDro
             </button>
 
             {showDropdown && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
+                <div className="absolute right-0 top-full w-48 bg-white rounded-lg shadow-lg border z-50">
                     <div className="py-1">
 
                         {submenuItems.map((cat) => (
