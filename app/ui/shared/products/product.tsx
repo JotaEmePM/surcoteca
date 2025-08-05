@@ -1,4 +1,4 @@
-import { Product as ProductItem } from '@/app/lib/models/product'
+import { Product as ProductItem } from '@/lib/models/product'
 import Link from 'next/link'
 import React from 'react'
 

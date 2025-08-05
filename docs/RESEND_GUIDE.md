@@ -79,7 +79,7 @@ curl -X POST http://localhost:3000/api/email \
 Envía un correo de bienvenida usando la plantilla predefinida.
 
 ```typescript
-import { sendWelcomeEmail } from '@/app/lib/email-service'
+import { sendWelcomeEmail } from '@/lib/email-service'
 
 const result = await sendWelcomeEmail({
   id: 'user_id',
@@ -101,7 +101,7 @@ if (result.success) {
 Función genérica para enviar cualquier tipo de correo.
 
 ```typescript
-import { sendEmail } from '@/app/lib/email-service'
+import { sendEmail } from '@/lib/email-service'
 
 const result = await sendEmail({
   to: 'usuario@ejemplo.com',
@@ -119,7 +119,7 @@ const result = await sendEmail({
 Verifica si un usuario es nuevo (registrado en los últimos 5 minutos).
 
 ```typescript
-import { isNewUser } from '@/app/lib/email-service'
+import { isNewUser } from '@/lib/email-service'
 
 if (isNewUser(user)) {
   // Enviar correo de bienvenida
