@@ -29,7 +29,7 @@ export default function Header() {
             setCategories(data_categories)
             console.log(`data_categories: ${JSON.stringify(data_categories)}`)
             const submenuCategories: SubMenuHeaderDropdowInterface[] = []
-            categories
+            data_categories
                 .sort((a, b) => a.order - b.order)
                 .map((cat) => {
                     submenuCategories.push({
