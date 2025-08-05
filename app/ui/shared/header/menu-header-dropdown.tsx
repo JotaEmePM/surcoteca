@@ -14,9 +14,12 @@ export interface MenuHeaderDropdownInterface {
 export default function MenuHeaderDropdown({ name, submenuItems }: MenuHeaderDropdownInterface) {
     const [showDropdown, setShowDropdown] = useState(false)
     return (
-        <div className="relative">
+        <div
+            className="relative"
+            onMouseEnter={() => setShowDropdown(true)}
+            onMouseLeave={() => setShowDropdown(false)}
+        >
             <button
-                onClick={() => setShowDropdown(!showDropdown)}
                 className="text-white text-sm font-medium leading-normal flex"
             >
                 {name}
@@ -33,7 +36,6 @@ export default function MenuHeaderDropdown({ name, submenuItems }: MenuHeaderDro
                                 id={cat.id}
                                 href={`/category/${cat.slug}`}
                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                onClick={() => setShowDropdown(false)}
                             >
                                 {cat.text}
                             </Link>
