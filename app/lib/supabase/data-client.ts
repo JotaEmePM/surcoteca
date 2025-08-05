@@ -3,22 +3,22 @@ import { Category } from '../models/categories'
 import { Product } from '../models/product'
 import { supabase, createClient } from './supabase'
 
-
-const getCategories = async () => {
+const getProductsByCategory = async (categorySlug: string) => {
     const supabase = createClient()
 
     if (!supabase)
-        throw new Error('Problema de acceso a los datos')
+        throw new Error('Problema de accesos a los datos')
 
-    const { data, error } = await supabase.from('categories').select('*')
+    const { data, error } = await supabase.from('categories')
+        .select('*')
+        .eq('slug', categorySlug)
 
-    if (error) {
-        console.error('Error al obtener categorias', error)
-        return []
-    }
+    if (error || !data) throw new Error('No se encontraron datos')
 
     return data
 }
+
+
 
 // const getRandomProducts = (quantity: number): Product[] => {
 //     const products: Product[] = []
@@ -28,7 +28,3 @@ const getCategories = async () => {
 
 
 
-export {
-    getCategories,
-    // getRandomProducts
-}

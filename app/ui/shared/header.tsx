@@ -6,10 +6,11 @@ import { IconSearch, IconShoppingCart, IconUser, IconLogout } from '@tabler/icon
 import { useAuth } from '../../lib/use-auth'
 import { useState, useEffect } from 'react'
 import { createClient } from '../../lib/supabase/supabase'
-import { getCategories } from '../../lib/supabase/data-client'
+
 import { Category } from '../../lib/models/categories'
 import { SubMenuHeaderDropdowInterface } from './header/menu-header-dropdown'
 import MenuHeaderDropdown from './header/menu-header-dropdown'
+import SupabaseCategory from '../../lib/supabase/supabase.categories'
 
 
 export default function Header() {
@@ -24,19 +25,27 @@ export default function Header() {
         setIsSupabaseConfigured(!!supabase)
 
         const fetchData = async () => {
-            const data_categories = await getCategories()
+            try {
+                const supabase_category = new SupabaseCategory()
 
-            const submenuCategories: SubMenuHeaderDropdowInterface[] = []
-            data_categories
-                .sort((a, b) => a.order - b.order)
-                .map((cat) => {
-                    submenuCategories.push({
-                        id: cat.id,
-                        text: cat.name,
-                        slug: cat.slug
+                const data_categories = await supabase_category.getCategories()
+                setCategories(data_categories)
+
+                const submenuCategories: SubMenuHeaderDropdowInterface[] = []
+                data_categories
+                    .sort((a, b) => a.order - b.order)
+                    .map((cat) => {
+                        submenuCategories.push({
+                            id: cat.id,
+                            text: cat.name,
+                            slug: cat.slug
+                        })
                     })
-                })
-            setMenuCategories(submenuCategories)
+                setMenuCategories(submenuCategories)
+            } catch (error) {
+                console.log('Error ', error)
+            }
+
         }
 
         fetchData()

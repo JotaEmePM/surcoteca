@@ -52,6 +52,7 @@ export type Database = {
       Row: {
         id: string
         name: string
+        slug: string
       }
     }
   };
