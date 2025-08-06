@@ -47,6 +47,7 @@ export default function Header() {
                     const supabase_user = new SupabaseUser()
                     const userRoles = await supabase_user.getUserRoles(user.id)
                     setRoles(userRoles as UserRole || null)
+                    console.log('User roles fetched:', userRoles)
                 }
             } catch (error) {
                 console.log('Error ', error)
