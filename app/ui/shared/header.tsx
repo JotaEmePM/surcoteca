@@ -43,6 +43,8 @@ export default function Header() {
                     })
                 setMenuCategories(submenuCategories)
 
+                console.log('Categories fetched:', submenuCategories)
+                console.log('User:', user)
                 if (user) {
                     const supabase_user = new SupabaseUser()
                     const userRoles = await supabase_user.getUserRoles(user.id)
