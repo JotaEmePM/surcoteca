@@ -4,8 +4,9 @@ import { IconHome } from "@tabler/icons-react";
 
 export default function NavigationSidebar() {
     return <aside className="fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 border-r-gray-400 text-white h-screen z-50 border-r w-[290px] -translate-x-full lg:translate-x-0">
-        <div className="py-8 flex justify-start">
+        <div className="py-8 flex justify-start gap-4">
             <Logo />
+            <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Surcoteca</h2>
         </div>
         <div className="flex flex-col overflow-y-auto">
             <nav className="mb-6">
