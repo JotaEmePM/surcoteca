@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import NavigationSidebar from '../components/admin/NavigationSidebar';
 
 export const metadata: Metadata = {
     title: 'Admin - Surcoteca',
@@ -11,11 +12,11 @@ export default function AdminLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="min-h-screen bg-background flex items-center justify-center">
-            <div className="w-full max-w-md p-6">
-                aaa
+        <>
+            <div className="min-h-screen bg-background xl:flex">
+                <NavigationSidebar />
                 {children}
             </div>
-        </div>
+        </>
     )
 }
