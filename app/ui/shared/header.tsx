@@ -50,6 +50,8 @@ export default function Header() {
                             setRoles(userRoles as UserRole || null)
                             console.log('User roles fetched:', userRoles)
                         })
+
+                        console.log('User roles fetched2:', roles)
                     }
                 }).catch((error) => {
                     console.error('Error fetching user:', error)
@@ -130,9 +132,7 @@ export default function Header() {
                                     )}
                                     <span className="hidden sm:inline">{user.user_metadata?.full_name || user.email}</span>
                                 </button>
-                                <>{roles && roles.roles.map(role => (
-                                    <span key={role.id} className="text-xs text-gray-500">{role.name}</span>
-                                ))}</>
+                                <>{roles && JSON.stringify(roles)}</>
 
                                 {showDropdown && (
                                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
