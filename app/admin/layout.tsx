@@ -13,6 +13,7 @@ export default function AdminLayout({
     return (
         <div className="min-h-screen bg-background flex items-center justify-center">
             <div className="w-full max-w-md p-6">
+                aaa
                 {children}
             </div>
         </div>
