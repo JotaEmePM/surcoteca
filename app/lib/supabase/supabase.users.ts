@@ -25,10 +25,16 @@ export default class SupabaseUser {
 
     public async getUserRoles(id_user: string): Promise<UserRole | null> {
         const { data, error } = await this.supabase!.from('users').select(`
-            id,
-            user_roles (id, role_id),
-            roles (id, name)
-        `)
+    id,
+    user_roles (
+      id,
+      role_id,
+      roles (
+        id,
+        name
+      )
+    )
+  `)
             .eq('id', id_user)
             .single()
 
