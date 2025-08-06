@@ -7,7 +7,7 @@ import { useAuth } from '../../lib/use-auth'
 import { useState, useEffect } from 'react'
 import { createClient } from '../../lib/supabase/supabase'
 
-import { Category } from '../../lib/models/categories'
+
 import { SubMenuHeaderDropdowInterface } from './header/menu-header-dropdown'
 import MenuHeaderDropdown from './header/menu-header-dropdown'
 import SupabaseCategory from '../../lib/supabase/supabase.categories'
@@ -43,14 +43,20 @@ export default function Header() {
                     })
                 setMenuCategories(submenuCategories)
 
-                console.log('Categories fetched:', submenuCategories)
-                console.log('User:', user)
-                if (user) {
-                    const supabase_user = new SupabaseUser()
-                    const userRoles = await supabase_user.getUserRoles(user.id)
-                    setRoles(userRoles as UserRole || null)
-                    console.log('User roles fetched:', userRoles)
-                }
+                supabase?.auth.getUser().then(({ data: { user } }) => {
+                    if (user) {
+                        const supabase_user = new SupabaseUser()
+                        supabase_user.getUserRoles(user.id).then((userRoles) => {
+                            setRoles(userRoles as UserRole || null)
+                            console.log('User roles fetched:', userRoles)
+                        })
+                    }
+                }).catch((error) => {
+                    console.error('Error fetching user:', error)
+                    setIsSupabaseConfigured(false)
+                })
+
+
             } catch (error) {
                 console.log('Error ', error)
             }
