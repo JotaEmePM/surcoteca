@@ -11,7 +11,7 @@ import { Category } from '../../lib/models/categories'
 import { SubMenuHeaderDropdowInterface } from './header/menu-header-dropdown'
 import MenuHeaderDropdown from './header/menu-header-dropdown'
 import SupabaseCategory from '../../lib/supabase/supabase.categories'
-import SupabaseUser from '../../lib/supabase/supabase.users'
+import SupabaseUser, { UserRole } from '../../lib/supabase/supabase.users'
 
 
 export default function Header() {
@@ -20,7 +20,7 @@ export default function Header() {
     const [isSupabaseConfigured, setIsSupabaseConfigured] = useState(true)
 
     const [menuCategories, setMenuCategories] = useState<SubMenuHeaderDropdowInterface[]>([])
-    const [roles, setRoles] = useState<any[]>([])
+    const [roles, setRoles] = useState<UserRole | null>(null)
 
     useEffect(() => {
         const supabase = createClient()
@@ -46,7 +46,7 @@ export default function Header() {
                 if (user) {
                     const supabase_user = new SupabaseUser()
                     const userRoles = await supabase_user.getUserRoles(user.id)
-                    setRoles(userRoles.user_roles || [])
+                    setRoles(userRoles as UserRole || null)
                 }
             } catch (error) {
                 console.log('Error ', error)
@@ -121,7 +121,7 @@ export default function Header() {
                                     )}
                                     <span className="hidden sm:inline">{user.user_metadata?.full_name || user.email}</span>
                                 </button>
-                                <>{roles.map(role => (
+                                <>{roles && roles.roles.map(role => (
                                     <span key={role.id} className="text-xs text-gray-500">{role.name}</span>
                                 ))}</>
 
