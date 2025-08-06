@@ -29,7 +29,7 @@ export default class SupabaseUser {
             user_roles (id, role_id),
             roles (id, name)
         `)
-            .eq('user.id', id_user)
+            .eq('id', id_user)
             .single()
 
         if (error) {
