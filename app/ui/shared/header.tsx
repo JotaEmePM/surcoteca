@@ -11,7 +11,7 @@ import { createClient } from '../../lib/supabase/supabase'
 import { SubMenuHeaderDropdowInterface } from './header/menu-header-dropdown'
 import MenuHeaderDropdown from './header/menu-header-dropdown'
 import SupabaseCategory from '../../lib/supabase/supabase.categories'
-import SupabaseUser, { UserRole } from '../../lib/supabase/supabase.users'
+import SupabaseUser from '../../lib/supabase/supabase.users'
 
 
 export default function Header() {
@@ -20,7 +20,7 @@ export default function Header() {
     const [isSupabaseConfigured, setIsSupabaseConfigured] = useState(true)
 
     const [menuCategories, setMenuCategories] = useState<SubMenuHeaderDropdowInterface[]>([])
-    const [roles, setRoles] = useState<UserRole | null>(null)
+    const [isAdmin, setIsAdmin] = useState<boolean>(false)
 
     useEffect(() => {
         const supabase = createClient()
@@ -43,15 +43,12 @@ export default function Header() {
                     })
                 setMenuCategories(submenuCategories)
 
-                supabase?.auth.getUser().then(({ data: { user } }) => {
+                supabase?.auth.getUser().then(async ({ data: { user } }) => {
                     if (user) {
                         const supabase_user = new SupabaseUser()
-                        supabase_user.getUserRoles(user.id).then((userRoles) => {
-                            setRoles(userRoles as UserRole || null)
-                            console.log('User roles fetched:', userRoles)
-                        })
 
-                        console.log('User roles fetched2:', roles)
+                        let isAdminRole = await supabase_user.userIsRole(user.id, 'admin')
+                        if (isAdminRole) setIsAdmin(true)
                     }
                 }).catch((error) => {
                     console.error('Error fetching user:', error)
@@ -132,8 +129,6 @@ export default function Header() {
                                     )}
                                     <span className="hidden sm:inline">{user.user_metadata?.full_name || user.email}</span>
                                 </button>
-                                <>{roles && JSON.stringify(roles)}</>
-
                                 {showDropdown && (
                                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
                                         <div className="py-1">
@@ -152,6 +147,18 @@ export default function Header() {
                                                 Mis Pedidos
                                             </Link>
                                             <hr className="my-1" />
+                                            {isAdmin && (
+                                                <>
+                                                    <Link
+                                                        href="/admin"
+                                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 font-bold"
+                                                        onClick={() => setShowDropdown(false)}
+                                                    >
+                                                        Panel de Admin
+                                                    </Link>
+                                                    <hr className="my-1" />
+                                                </>
+                                            )}
                                             <button
                                                 onClick={handleSignOut}
                                                 className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
