@@ -3,22 +3,22 @@
 :root {
   --background: #161d1c;
   --foreground: #ffffff;
-  
+
   /* Paleta de colores Surcoteca */
   --primary: #93c8bd;
   --primary-hover: #7fb5ac;
   --primary-foreground: #0e1918;
-  
+
   --secondary: #1f2a29;
   --secondary-foreground: #ffffff;
-  
+
   --muted: #2e3b39;
   --muted-foreground: #d1d5db;
-  
+
   --accent: #93c8bd;
   --accent-hover: #7fb5ac;
   --accent-foreground: #0e1918;
-  
+
   /* Colores de interacción */
   --card-hover: #243530;
 }
@@ -26,22 +26,22 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  
+
   /* Colores personalizados */
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
-  
+
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
-  
+
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-  
+
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-foreground: var(--accent-foreground);
-  
+
   /* Colores de interacción */
   --color-card-hover: var(--card-hover);
 }
@@ -57,4 +57,30 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-comfortaa), sans-serif;
+}
+
+.menu-item-active {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.menu-item-inactive {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.menu-item {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  font-size: 14px;
+  /* TODO: Revisar tamano ideal */
+  line-height: 20px;
+  /* TODO: Revisar tamano ideal */
+  font-weight: 500;
+  gap: calc(0.25rem * 3);
+  border-radius: 0.5rem;
+  padding-inline: calc(0.25rem * 3);
+  padding-block: calc(0.25rem * 2);
 }
