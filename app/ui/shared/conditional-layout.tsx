@@ -9,9 +9,9 @@ interface ConditionalLayoutProps {
 
 export default function ConditionalLayout({ children }: ConditionalLayoutProps) {
   const pathname = usePathname()
-  
+
   // Rutas que no deben mostrar el header
-  const noHeaderRoutes = ['/login', '/register', '/signup']
+  const noHeaderRoutes = ['/login', '/register', '/signup', '/admin']
   const shouldShowHeader = !noHeaderRoutes.some(route => pathname.startsWith(route))
 
   if (shouldShowHeader) {
