@@ -14,11 +14,14 @@ export default function AdminLayout({
 }) {
     return (
         <>
-            {/* Contenedor principal en fila: sidebar a la izquierda, contenido a la derecha */}
             <div className="min-h-screen bg-background flex">
-                <SidebarProvider>
-                    <NavigationSidebar />
-                </SidebarProvider>
+                {/* El menú ocupa un ancho propio y no se contrae */}
+                <aside className="shrink-0">
+                    <SidebarProvider>
+                        <NavigationSidebar />
+                    </SidebarProvider>
+                </aside>
+                {/* El resto del espacio se asigna al contenido */}
                 <main className="flex-1 overflow-auto">
                     {children}
                 </main>
