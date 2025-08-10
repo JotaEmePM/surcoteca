@@ -57,7 +57,7 @@ export default class SupabaseUser {
                 roles!inner(name)
             `)
             .eq('user_id', id_user)
-            .eq('roles.name', role);
+            .eq('roles.name', role)
 
         if (error) {
             console.error('Error al obtener roles de usuario', error)

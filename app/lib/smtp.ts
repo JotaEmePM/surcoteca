@@ -1,17 +1,7 @@
-// Eliminamos import type para evitar error de declaración
-// import type { Transporter } from 'nodemailer'
+import nodemailer, { Transporter } from 'nodemailer'
 
-// Definimos una interfaz mínima para el transporter
-interface TransporterLike {
-    sendMail: (options: any) => Promise<any>
-}
-
-let nodemailer: any
-try {
-    nodemailer = require('nodemailer')
-} catch (e) {
-    // ignore
-}
+// Definimos el tipo del transporter usando la interfaz oficial
+let transporter: Transporter | null = null
 
 const smtpHost = process.env.SMTP_HOST
 const smtpPort = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : undefined
@@ -26,8 +16,6 @@ export const SMTP_CONFIG = {
     from: process.env.SMTP_FROM || '',
     replyTo: process.env.SMTP_REPLY_TO || '',
 }
-
-let transporter: TransporterLike | null = null
 
 if (smtpHost && smtpPort && smtpUser && smtpPass) {
     transporter = nodemailer.createTransport({

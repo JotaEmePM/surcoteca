@@ -47,7 +47,7 @@ export default function Header() {
                     if (user) {
                         const supabase_user = new SupabaseUser()
 
-                        let isAdminRole = await supabase_user.userIsRole(user.id, 'admin')
+                        const isAdminRole = await supabase_user.userIsRole(user.id, 'admin')
                         if (isAdminRole) setIsAdmin(true)
                     }
                 }).catch((error) => {

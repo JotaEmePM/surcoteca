@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import NavigationSidebar from '../components/admin/NavigationSidebar';
+import NavigationSidebar from '../components/admin/NavigationSidebar'
 
 export const metadata: Metadata = {
     title: 'Admin - Surcoteca',
