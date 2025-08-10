@@ -1,198 +1,39 @@
-# Sistema de Correos con Resend
+# Guía de SMTP (Migración desde Resend)
 
-Este sistema permite enviar correos electrónicos usando Resend de forma sencilla y eficiente.
+Se migró el sistema de correos a **SMTP con nodemailer**.
 
-## Configuración
-
-### Variables de Entorno
-
-Asegúrate de tener estas variables en tu archivo `.env`:
-
+## Variables de Entorno
 ```bash
-NEXT_RESEND_API_KEY=tu_api_key_de_resend
+SMTP_HOST=
+SMTP_PORT=
+SMTP_USER=
+SMTP_PASS=
+SMTP_FROM="Surcoteca <noreply@tudominio.com>"
+SMTP_REPLY_TO=soporte@tudominio.com
+SMTP_SECURE=false
 ```
 
-### Configuración de Dominio
+## Uso
+La interfaz de `sendWelcomeEmail` y `sendEmail` se mantiene.
 
-En el archivo `app/lib/resend.ts`, actualiza la configuración:
+## Diferencias vs Resend
+- Sin `tags` (puedes simular guardando metadata antes de enviar)
+- Sin API Key centralizada; dependes de credenciales SMTP
+- Menos métricas nativas; implementar tracking propio si se requiere
 
-```typescript
-export const RESEND_CONFIG = {
-  from: 'Surcoteca <noreply@tudominio.com>', // Cambia por tu dominio verificado
-  replyTo: 'support@tudominio.com', // Cambia por tu email de soporte
-}
+## Extensiones Sugeridas
+- Guardar logs de envíos en tabla `email_logs`
+- Implementar reintentos en fallos temporales (códigos 4xx de servidor SMTP)
+
+## Ejemplo de Tracking Manual
+```ts
+// Antes de enviar
+await db.insert('email_logs').values({ user_id, type: 'welcome', status: 'pending' })
+// Después
+await db.update('email_logs').set({ status: 'sent', provider_id: info.messageId })
 ```
 
-## Funcionalidades Implementadas
-
-### 1. Correo de Bienvenida Automático
-
-Cuando un usuario se autentica por primera vez (OAuth con GitHub/Google), automáticamente se le envía un correo de bienvenida.
-
-**Cómo funciona:**
-- Se detecta en `app/auth/callback/route.ts`
-- Se verifica si es un usuario nuevo con `isNewUser()`
-- Se envía el correo usando `sendWelcomeEmail()`
-
-### 2. API Endpoint para Correos
-
-**Endpoint:** `POST /api/email`
-
-#### Enviar Correo de Bienvenida
-
-```bash
-curl -X POST http://localhost:3000/api/email \
-  -H "Content-Type: application/json" \
-  -d '{
-    "type": "welcome",
-    "user": {
-      "id": "user_id",
-      "email": "usuario@ejemplo.com",
-      "user_metadata": {
-        "name": "Nombre Usuario"
-      }
-    }
-  }'
-```
-
-#### Enviar Correo Personalizado
-
-```bash
-curl -X POST http://localhost:3000/api/email \
-  -H "Content-Type: application/json" \
-  -d '{
-    "type": "custom",
-    "to": "usuario@ejemplo.com",
-    "subject": "Asunto del correo",
-    "html": "<h1>Hola!</h1><p>Este es un correo de prueba.</p>",
-    "text": "Hola! Este es un correo de prueba.",
-    "tags": [
-      {"name": "category", "value": "test"}
-    ]
-  }'
-```
-
-### 3. Funciones Disponibles
-
-#### `sendWelcomeEmail(user)`
-
-Envía un correo de bienvenida usando la plantilla predefinida.
-
-```typescript
-import { sendWelcomeEmail } from '@/lib/email-service'
-
-const result = await sendWelcomeEmail({
-  id: 'user_id',
-  email: 'usuario@ejemplo.com',
-  user_metadata: {
-    name: 'Nombre Usuario'
-  }
-})
-
-if (result.success) {
-  console.log('Correo enviado:', result.data)
-} else {
-  console.error('Error:', result.error)
-}
-```
-
-#### `sendEmail(options)`
-
-Función genérica para enviar cualquier tipo de correo.
-
-```typescript
-import { sendEmail } from '@/lib/email-service'
-
-const result = await sendEmail({
-  to: 'usuario@ejemplo.com',
-  subject: 'Asunto del correo',
-  html: '<h1>Contenido HTML</h1>',
-  text: 'Contenido en texto plano',
-  tags: [
-    { name: 'category', value: 'notification' }
-  ]
-})
-```
-
-#### `isNewUser(user)`
-
-Verifica si un usuario es nuevo (registrado en los últimos 5 minutos).
-
-```typescript
-import { isNewUser } from '@/lib/email-service'
-
-if (isNewUser(user)) {
-  // Enviar correo de bienvenida
-}
-```
-
-## Plantillas de Correo
-
-Las plantillas están en `app/lib/email-templates.tsx` usando React Email.
-
-### Crear Nueva Plantilla
-
-```typescript
-export const MiPlantilla: React.FC<{data: any}> = ({ data }) => (
-  <Html>
-    <Head />
-    <Body style={main}>
-      <Container style={container}>
-        <Text>¡Hola {data.name}!</Text>
-        {/* Tu contenido aquí */}
-      </Container>
-    </Body>
-  </Html>
-)
-```
-
-### Usar la Plantilla
-
-```typescript
-import { render } from '@react-email/render'
-import { MiPlantilla } from './email-templates'
-
-const emailHtml = render(MiPlantilla({ data: { name: 'Usuario' } }))
-
-await sendEmail({
-  to: 'usuario@ejemplo.com',
-  subject: 'Mi correo',
-  html: emailHtml
-})
-```
-
-## Testing
-
-### Probar el Sistema
-
-1. **Autenticación:** Regístrate con GitHub/Google para probar el correo de bienvenida automático.
-
-2. **API:** Usa el endpoint `/api/email` para probar correos personalizados.
-
-3. **Desarrollo Local:** Los correos se enviarán realmente, así que usa emails de prueba.
-
-### Debugging
-
-Los logs aparecen en la consola del servidor:
-
-- ✅ `Welcome email sent successfully: email_id`
-- ❌ `Error sending welcome email: error_message`
-- ⚠️ `Resend not configured, skipping welcome email`
-
-## Próximas Mejoras
-
-- [ ] Plantilla para reset de contraseña
-- [ ] Plantilla para notificaciones de pedidos
-- [ ] Sistema de colas para emails
-- [ ] Métricas de apertura y clicks
-- [ ] Templates más avanzados con componentes reutilizables
-
-## Notas Importantes
-
-1. **Dominio Verificado:** Asegúrate de verificar tu dominio en Resend para evitar que los correos vayan a spam.
-
-2. **Rate Limits:** Resend tiene límites de envío según tu plan.
-
-3. **Error Handling:** El sistema no falla la autenticación si hay problemas con el correo.
-
-4. **Logs:** Todos los envíos se registran en los logs del servidor para debugging.
+## Siguientes pasos
+1. Eliminar restos de documentación antigua sobre Resend
+2. Agregar cola si se planean bursts de correos
+3. Implementar verificación DMARC/SPF/DKIM

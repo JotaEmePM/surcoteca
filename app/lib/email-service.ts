@@ -1,8 +1,7 @@
 import { render } from '@react-email/render'
 import React from 'react'
-import { resend, RESEND_CONFIG } from './resend'
+import { transporter, SMTP_CONFIG } from './smtp'
 import { WelcomeEmail } from './email-templates'
-import type { CreateEmailOptions } from 'resend'
 
 export interface EmailUser {
     id: string
@@ -19,9 +18,9 @@ export interface EmailUser {
  * Envía un correo de bienvenida a un nuevo usuario
  */
 export async function sendWelcomeEmail(user: EmailUser) {
-    if (!resend) {
-        console.warn('Resend not configured, skipping welcome email')
-        return { success: false, error: 'Resend not configured' }
+    if (!transporter) {
+        console.warn('SMTP transporter not configured, skipping welcome email')
+        return { success: false, error: 'SMTP not configured' }
     }
 
     try {
@@ -40,27 +39,18 @@ export async function sendWelcomeEmail(user: EmailUser) {
         )
 
         // Enviar el email
-        const { data, error } = await resend.emails.send({
-            from: RESEND_CONFIG.from,
+        const info = await transporter.sendMail({
+            from: SMTP_CONFIG.from,
             to: user.email,
-            replyTo: RESEND_CONFIG.replyTo,
+            replyTo: SMTP_CONFIG.replyTo,
             subject: '¡Bienvenido a Surcoteca! 🎉',
             html: emailHtml,
-            tags: [
-                { name: 'category', value: 'welcome' },
-                { name: 'user_id', value: user.id },
-            ],
         })
 
-        if (error) {
-            console.error('Error sending welcome email:', error)
-            return { success: false, error: error.message }
-        }
-
-        console.log('Welcome email sent successfully:', data?.id)
-        return { success: true, data }
+        console.log('Welcome email sent successfully (SMTP):', info.messageId)
+        return { success: true, data: { id: info.messageId } }
     } catch (error) {
-        console.error('Error sending welcome email:', error)
+        console.error('Error sending welcome email (SMTP):', error)
         return {
             success: false,
             error: error instanceof Error ? error.message : 'Unknown error'
@@ -76,7 +66,7 @@ export async function sendEmail({
     subject,
     html,
     text,
-    tags = [],
+    tags = [], // Ignorado en SMTP por ahora
 }: {
     to: string | string[]
     subject: string
@@ -84,9 +74,9 @@ export async function sendEmail({
     text?: string
     tags?: Array<{ name: string; value: string }>
 }) {
-    if (!resend) {
-        console.warn('Resend not configured, skipping email')
-        return { success: false, error: 'Resend not configured' }
+    if (!transporter) {
+        console.warn('SMTP transporter not configured, skipping email')
+        return { success: false, error: 'SMTP not configured' }
     }
 
     // Asegurar que tenemos al menos text o html
@@ -95,40 +85,19 @@ export async function sendEmail({
     }
 
     try {
-        // Construir las opciones base
-        const baseOptions = {
-            from: RESEND_CONFIG.from,
+        const info = await transporter.sendMail({
+            from: SMTP_CONFIG.from,
             to,
-            replyTo: RESEND_CONFIG.replyTo,
+            replyTo: SMTP_CONFIG.replyTo,
             subject,
-            tags,
-        }
+            html,
+            text,
+        })
 
-        // Crear las opciones finales según el contenido disponible
-        let emailOptions: CreateEmailOptions
-
-        if (html && text) {
-            emailOptions = { ...baseOptions, html, text }
-        } else if (html) {
-            emailOptions = { ...baseOptions, html }
-        } else if (text) {
-            emailOptions = { ...baseOptions, text }
-        } else {
-            // Esto no debería pasar debido a la validación anterior
-            throw new Error('Either html or text must be provided')
-        }
-
-        const { data, error } = await resend.emails.send(emailOptions)
-
-        if (error) {
-            console.error('Error sending email:', error)
-            return { success: false, error: error.message }
-        }
-
-        console.log('Email sent successfully:', data?.id)
-        return { success: true, data }
+        console.log('Email sent successfully (SMTP):', info.messageId)
+        return { success: true, data: { id: info.messageId } }
     } catch (error) {
-        console.error('Error sending email:', error)
+        console.error('Error sending email (SMTP):', error)
         return {
             success: false,
             error: error instanceof Error ? error.message : 'Unknown error'
