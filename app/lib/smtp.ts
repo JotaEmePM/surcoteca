@@ -7,6 +7,7 @@ const smtpHost = process.env.SMTP_HOST
 const smtpPort = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : undefined
 const smtpUser = process.env.SMTP_USER
 const smtpPass = process.env.SMTP_PASS
+const smtpDebug = process.env.SMTP_DEBUG === 'true'
 
 if (!smtpHost || !smtpPort || !smtpUser || !smtpPass) {
     console.warn('SMTP environment variables not fully configured (SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS)')
@@ -26,6 +27,15 @@ if (smtpHost && smtpPort && smtpUser && smtpPass) {
             user: smtpUser,
             pass: smtpPass,
         },
+        logger: smtpDebug,
+        debug: smtpDebug,
+    })
+
+    // Verificación opcional de la conexión
+    transporter.verify().then(() => {
+        if (smtpDebug) console.log('SMTP connection verified OK')
+    }).catch(err => {
+        console.error('SMTP verify failed:', err)
     })
 }
 
