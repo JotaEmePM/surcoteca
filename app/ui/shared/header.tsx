@@ -188,7 +188,7 @@ export default function Header() {
             </div>
 
             {/* Mobile menu */}
-            <div className={`md:hidden fixed inset-y-0 left-0 right-0 z-40 pointer-events-none ${mobileMenuOpen ? '' : ''}`}> {/* container keeps layering */}
+            <div className={`md:hidden fixed inset-y-0 left-0 right-0 z-40 ${mobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}> {/* container keeps layering */}
                 <div
                     className={`fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
                     onClick={() => setMobileMenuOpen(false)}
