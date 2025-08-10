@@ -6,42 +6,11 @@ import { IconChevronDown, IconHome } from '@tabler/icons-react'
 import { usePathname } from 'next/navigation'
 import { JSX, useMemo, useState, type MouseEvent } from 'react'
 import { useSidebar } from './Sidebar-Context'
-
-/** ---- Tipos ---- */
-type NavItem = {
-    id: string;
-    label: string;
-    href?: string;           // padres pueden no tener href
-    icon?: JSX.Element;
-    children?: ReadonlyArray<NavItem>;
-    match?: 'exact' | 'prefix'; // opcional, default: prefix ("/" es exacto)
-};
+// Añadimos iconos para colapsar/expandir
+import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react'
+import { NAV_ITEMS, NavItem } from '../../lib/globals/admin-sidebar'
 
 type ExpandedMap = Record<string, boolean>;
-
-/** ---- Datos de navegación ---- */
-const NAV_ITEMS: ReadonlyArray<NavItem> = [
-    { id: 'home', label: 'Inicio', href: '/', icon: <IconHome />, match: 'exact' },
-    {
-        id: 'catalog',
-        label: 'Catálogo',
-        icon: <IconHome />,
-        children: [
-            { id: 'cat-vinilos', label: 'Vinilos', href: '/catalog/vinyl' },
-            { id: 'cat-equipos', label: 'Equipos', href: '/catalog/gear' },
-            { id: 'cat-accesorios', label: 'Accesorios', href: '/catalog/accessories' },
-        ],
-    },
-    {
-        id: 'settings',
-        label: 'Ajustes',
-        icon: <IconHome />,
-        children: [
-            { id: 'profile', label: 'Perfil', href: '/settings/profile' },
-            { id: 'billing', label: 'Facturación', href: '/settings/billing' },
-        ],
-    },
-]
 
 /** ---- Utils de activo ---- */
 function matchesPath(href: string, pathname: string, mode?: NavItem['match']): boolean {
@@ -71,7 +40,7 @@ function itemClasses(isActive: boolean, isCollapsed: boolean): string {
 }
 
 export default function NavigationSidebar(): JSX.Element {
-    const { state, setActiveItem } = useSidebar()
+    const { state, setActiveItem, setCollapsed } = useSidebar()
     const pathname = usePathname()
 
     // expandir padres: por defecto, expande aquellos que tengan algún hijo activo
@@ -171,17 +140,17 @@ export default function NavigationSidebar(): JSX.Element {
 
     return (
         <aside
-            className={`fixed mt-16 lg:mt-0 top-0 left-0 z-50 h-screen border-r border-r-gray-400 px-5 text-white transition-transform ${width} ${translateX}`}
+            className={`fixed mt-16 lg:mt-0 top-0 left-0 z-50 h-screen border-r border-r-gray-400 px-5 text-white ${width} ${translateX} overflow-hidden transition-all duration-300 ease-in-out`}
             aria-label="Barra lateral de navegación"
         >
             {/* Header */}
             <div className={`py-8 flex ${state.isCollapsed ? 'justify-center' : 'justify-start'} gap-4`}>
                 <Logo />
-                {!state.isCollapsed && (
-                    <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em]">
-                        Surcoteca
-                    </h2>
-                )}
+                <h2
+                    className={`text-white text-lg font-bold leading-tight tracking-[-0.015em] origin-left transition-all duration-300 ${state.isCollapsed ? 'opacity-0 -translate-x-4 scale-95 pointer-events-none' : 'opacity-100 translate-x-0 scale-100'}`}
+                >
+                    Surcoteca
+                </h2>
             </div>
 
             {/* Navegación */}
@@ -189,9 +158,35 @@ export default function NavigationSidebar(): JSX.Element {
                 <nav className="mb-6">
                     <div className="flex flex-col gap-4">
                         <div>
-                            {!state.isCollapsed && (
-                                <h2 className="mb-4 text-xs uppercase flex leading-[20px] text-gray-400">Menu</h2>
-                            )}
+                            <div className={`mb-4 flex items-center ${state.isCollapsed ? 'justify-center' : 'gap-2'} transition-all duration-300`}>
+                                <h2
+                                    className={`text-xs uppercase leading-[20px] text-gray-400 origin-left transition-all duration-300 ${state.isCollapsed ? 'opacity-0 -translate-x-4 scale-95 w-0 overflow-hidden' : 'opacity-100 translate-x-0 scale-100'}`}
+                                >
+                                    Menu
+                                </h2>
+                                {!state.isCollapsed && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setCollapsed(true)}
+                                        className="ml-auto inline-flex h-5 w-5 items-center justify-center rounded hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+                                        aria-label="Colapsar menú"
+                                        title="Colapsar menú"
+                                    >
+                                        <IconChevronLeft size={16} />
+                                    </button>
+                                )}
+                                {state.isCollapsed && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setCollapsed(false)}
+                                        className="inline-flex h-6 w-6 items-center justify-center rounded hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+                                        aria-label="Expandir menú"
+                                        title="Expandir menú"
+                                    >
+                                        <IconChevronRight size={18} />
+                                    </button>
+                                )}
+                            </div>
                             <ul className="flex flex-col gap-2">
                                 {NAV_ITEMS.map((it) => renderItem(it))}
                             </ul>
