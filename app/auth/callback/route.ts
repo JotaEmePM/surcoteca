@@ -38,30 +38,29 @@ export async function GET(request: NextRequest) {
 
       if (!error && data.user) {
         // Verificar si es un usuario nuevo y enviar email de bienvenida
-        const response_data_user = await supabase.from('users').select(`
-          id,
-          name,
-          welcome_sent
-        `).filter('id', 'eq', data.user.id)
+        const { data: userRow, error: userQueryError } = await supabase
+          .from('users')
+          .select('id, name, welcome_sent')
+          .eq('id', data.user.id)
+          .maybeSingle<UserEmailSentInterface>()
 
-        if (response_data_user.error && !response_data_user.data) {
-          console.log('Failed query user data', response_data_user.error)
+        if (userQueryError) {
+          console.log('Failed query user data', userQueryError)
         }
 
-        const user_welcome_sent: UserEmailSentInterface[] | null = response_data_user.data
-        if (user_welcome_sent && !user_welcome_sent[0].welcome_sent) {
+        if (userRow && userRow.welcome_sent === false) {
           try {
             const result = await sendWelcomeEmail(data.user as EmailUser)
             if (result.success) {
-
-              const responseUpdate = await supabase.from('users')
-                .update({
-                  welcome_sent: true
-                })
+              const { error: updateError } = await supabase
+                .from('users')
+                .update({ welcome_sent: true })
                 .eq('id', data.user.id)
 
-              if (!responseUpdate.error) {
+              if (!updateError) {
                 console.log('Welcome email sent successfully')
+              } else {
+                console.error('Failed to update welcome_sent flag:', updateError)
               }
             } else {
               console.error('Failed to send welcome email:', result.error)
