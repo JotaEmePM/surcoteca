@@ -9,6 +9,7 @@ import { useSidebar } from './Sidebar-Context'
 // Añadimos iconos para colapsar/expandir
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react'
 import { NAV_ITEMS, NavItem } from '../../lib/globals/admin-sidebar'
+import { IconDisc } from '@tabler/icons-react'
 
 type ExpandedMap = Record<string, boolean>;
 
@@ -142,12 +143,16 @@ export default function NavigationSidebar(): JSX.Element {
     return (
         // Eliminamos el aside fijo y el spacer; ahora es inline usando el aside externo del layout
         <div
-            className={`${width} h-screen border-r border-r-gray-400 px-5 text-white overflow-hidden transition-all duration-300 ease-in-out`}
+            className={`${width} h-screen border-r border-[#244740] px-5 text-white overflow-hidden transition-all duration-300 ease-in-out bg-[#1B2F2B]`}
             aria-label="Barra lateral de navegación"
         >
             {/* Header */}
             <div className={`py-8 flex ${state.isCollapsed ? 'justify-center' : 'justify-start'} gap-4`}>
-                <Logo />
+                {state.isCollapsed ? (
+                    <IconDisc className="text-white" size={28} />
+                ) : (
+                    <Logo />
+                )}
                 <h2
                     className={`text-white text-lg font-bold leading-tight tracking-[-0.015em] origin-left transition-all duration-300 ${state.isCollapsed ? 'opacity-0 -translate-x-4 scale-95 pointer-events-none' : 'opacity-100 translate-x-0 scale-100'}`}
                 >
