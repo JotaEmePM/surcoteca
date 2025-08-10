@@ -60,7 +60,8 @@ export default function NavigationSidebar(): JSX.Element {
         setExpanded((prev) => ({ ...prev, [id]: !prev[id] }))
 
     const width = state.isCollapsed ? 'w-[72px]' : 'w-[290px]'
-    const translateX = state.isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+    // Eliminamos translateX porque ya no es off-canvas fijo
+    // const translateX = state.isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
 
     const renderItem = (item: NavItem): JSX.Element => {
         const active = isItemActive(item, pathname, state.activeItem)
@@ -139,8 +140,9 @@ export default function NavigationSidebar(): JSX.Element {
     }
 
     return (
-        <aside
-            className={`fixed mt-16 lg:mt-0 top-0 left-0 z-50 h-screen border-r border-r-gray-400 px-5 text-white ${width} ${translateX} overflow-hidden transition-all duration-300 ease-in-out`}
+        // Eliminamos el aside fijo y el spacer; ahora es inline usando el aside externo del layout
+        <div
+            className={`${width} h-screen border-r border-r-gray-400 px-5 text-white overflow-hidden transition-all duration-300 ease-in-out`}
             aria-label="Barra lateral de navegación"
         >
             {/* Header */}
@@ -194,6 +196,6 @@ export default function NavigationSidebar(): JSX.Element {
                     </div>
                 </nav>
             </div>
-        </aside>
+        </div>
     )
 }

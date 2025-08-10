@@ -15,16 +15,12 @@ export default function AdminLayout({
     return (
         <>
             <div className="min-h-screen bg-background flex">
-                {/* El menú ocupa un ancho propio y no se contrae */}
-                <aside className="shrink-0">
-                    <SidebarProvider>
-                        <NavigationSidebar />
-                    </SidebarProvider>
-                </aside>
-                {/* El resto del espacio se asigna al contenido */}
-                <main className="flex-1 overflow-auto">
-                    {children}
-                </main>
+                {/* Sidebar inline */}
+                <SidebarProvider>
+                    <NavigationSidebar />
+                </SidebarProvider>
+                {/* Contenido */}
+                <main className="flex-1 overflow-auto">{children}</main>
             </div>
         </>
     )
