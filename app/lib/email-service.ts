@@ -3,6 +3,8 @@ import React from 'react'
 import { transporter, SMTP_CONFIG } from './smtp'
 import { WelcomeEmail } from './email-templates'
 
+const envelopeFrom = process.env.SMTP_ENVELOPE_FROM
+
 export interface EmailUser {
     id: string
     email: string
@@ -43,6 +45,7 @@ export async function sendWelcomeEmail(user: EmailUser) {
             from: SMTP_CONFIG.from,
             to: user.email,
             replyTo: SMTP_CONFIG.replyTo,
+            envelope: envelopeFrom ? { from: envelopeFrom, to: [user.email] } : undefined,
             subject: '¡Bienvenido a Surcoteca! 🎉',
             html: emailHtml,
         })
@@ -85,10 +88,12 @@ export async function sendEmail({
     }
 
     try {
+        const toArray = Array.isArray(to) ? to : [to]
         const info = await transporter.sendMail({
             from: SMTP_CONFIG.from,
-            to,
+            to: toArray,
             replyTo: SMTP_CONFIG.replyTo,
+            envelope: envelopeFrom ? { from: envelopeFrom, to: toArray } : undefined,
             subject,
             html,
             text,
