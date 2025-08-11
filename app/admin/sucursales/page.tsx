@@ -33,9 +33,9 @@ export default function Page() {
             {loading ? (
                 <SkeletonTable rows={6} columns={4} />
             ) : (
-                <div className="mt-4 overflow-x-auto rounded border bg-white/60">
+                <div className="mt-4 overflow-x-auto rounded border border-primary/40 bg-secondary/40 backdrop-blur">
                     <table className="min-w-full text-left text-sm">
-                        <thead className="bg-gray-50 text-gray-600">
+                        <thead className="bg-primary/90 text-primary-foreground">
                             <tr>
                                 <th className="px-4 py-2 font-semibold">Nombre</th>
                                 <th className="px-4 py-2 font-semibold hidden sm:table-cell">Descripción</th>
@@ -43,20 +43,20 @@ export default function Page() {
                                 <th className="px-4 py-2 font-semibold">Virtual</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="divide-y divide-primary/20">
                             {sucursales.map((sucursal) => (
-                                <tr key={sucursal.id} className="border-t last:border-b hover:bg-gray-50">
+                                <tr key={sucursal.id} className="hover:bg-primary/10 transition-colors">
                                     <td className="px-4 py-2 align-top">
-                                        <div className="font-medium text-gray-900">{sucursal.name}</div>
-                                        <div className="sm:hidden text-xs text-gray-500 mt-1 line-clamp-2">{sucursal.description}</div>
-                                        <div className="md:hidden text-xs text-gray-400 mt-1">{sucursal.direccion}</div>
+                                        <div className="font-medium text-foreground">{sucursal.name}</div>
+                                        <div className="sm:hidden text-xs text-muted-foreground mt-1 line-clamp-2">{sucursal.description}</div>
+                                        <div className="md:hidden text-xs text-muted-foreground mt-1">{sucursal.direccion}</div>
                                     </td>
-                                    <td className="px-4 py-2 hidden sm:table-cell align-top text-gray-600 max-w-xs">
+                                    <td className="px-4 py-2 hidden sm:table-cell align-top text-muted-foreground max-w-xs">
                                         <div className="line-clamp-2">{sucursal.description}</div>
                                     </td>
-                                    <td className="px-4 py-2 hidden md:table-cell align-top text-gray-600">{sucursal.direccion}</td>
+                                    <td className="px-4 py-2 hidden md:table-cell align-top text-muted-foreground">{sucursal.direccion}</td>
                                     <td className="px-4 py-2 align-top">
-                                        <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold ${sucursal.is_virtual ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-200 text-gray-700'}`}>
+                                        <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold ${sucursal.is_virtual ? 'bg-primary/30 text-primary-foreground' : 'bg-muted text-foreground'}`}>
                                             {sucursal.is_virtual ? 'Sí' : 'No'}
                                         </span>
                                     </td>
@@ -65,7 +65,7 @@ export default function Page() {
                         </tbody>
                     </table>
                     {!sucursales.length && (
-                        <div className="py-6 text-center text-sm text-gray-500">No hay sucursales.</div>
+                        <div className="py-6 text-center text-sm text-muted-foreground">No hay sucursales.</div>
                     )}
                 </div>
             )}
