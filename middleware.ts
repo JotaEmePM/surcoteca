@@ -7,8 +7,8 @@ export async function middleware(req: NextRequest) {
     request: req,
   });
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
   // Si no hay configuración de Supabase, continuar sin autenticación
   if (!supabaseUrl || !supabaseAnonKey) {
@@ -39,9 +39,9 @@ export async function middleware(req: NextRequest) {
 
   // Rutas que requieren autenticación
   const protectedRoutes = ['/profile', '/orders', '/admin'];
-  
+
   // Verificar si la ruta actual está protegida
-  const isProtectedRoute = protectedRoutes.some(route => 
+  const isProtectedRoute = protectedRoutes.some(route =>
     req.nextUrl.pathname.startsWith(route)
   );
 

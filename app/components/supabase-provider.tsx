@@ -21,8 +21,8 @@ export default function SupabaseProvider({ children }: SupabaseProviderProps) {
             Para usar las funciones de autenticación, necesitas configurar las variables de entorno de Supabase.
           </p>
           <div className="text-left bg-gray-100 p-3 rounded text-xs font-mono">
-            <div>NEXT_PUBLIC_SUPABASE_URL=tu_url</div>
-            <div>NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_key</div>
+            <div>_SUPABASE_URL=tu_url</div>
+            <div>_SUPABASE_ANON_KEY=tu_key</div>
           </div>
         </div>
       </div>

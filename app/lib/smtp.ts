@@ -9,8 +9,24 @@ const smtpUser = process.env.SMTP_USER
 const smtpPass = process.env.SMTP_PASS
 const smtpDebug = process.env.SMTP_DEBUG === 'true'
 
+// Variables DKIM
+const dkimDomain = process.env.SMTP_DKIM_DOMAIN
+const dkimSelector = process.env.SMTP_DKIM_SELECTOR
+let dkimPrivateKey = process.env.SMTP_DKIM_PRIVATE_KEY
+
+// Normaliza la private key (permitir que venga con \n escapados o en base64 sin cabeceras)
+if (dkimPrivateKey) {
+    // Reemplazar secuencias \n por saltos reales
+    dkimPrivateKey = dkimPrivateKey.replace(/\\n/g, '\n').trim()
+    // Si parece base64 sin cabeceras y no comienza con -----BEGIN, no la tocamos aquí.
+}
+
 if (!smtpHost || !smtpPort || !smtpUser || !smtpPass) {
     console.warn('SMTP environment variables not fully configured (SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS)')
+}
+
+if ((dkimDomain || dkimSelector || dkimPrivateKey) && !(dkimDomain && dkimSelector && dkimPrivateKey)) {
+    console.warn('DKIM variables incompletas. Se requieren: SMTP_DKIM_DOMAIN, SMTP_DKIM_SELECTOR, SMTP_DKIM_PRIVATE_KEY')
 }
 
 export const SMTP_CONFIG = {
@@ -19,7 +35,7 @@ export const SMTP_CONFIG = {
 }
 
 if (smtpHost && smtpPort && smtpUser && smtpPass) {
-    transporter = nodemailer.createTransport({
+    const transportOptions: any = {
         host: smtpHost,
         port: smtpPort,
         secure: smtpPort === 465 || process.env.SMTP_SECURE === 'true',
@@ -29,11 +45,20 @@ if (smtpHost && smtpPort && smtpUser && smtpPass) {
         },
         logger: smtpDebug,
         debug: smtpDebug,
-    })
+    }
 
-    // Verificación opcional de la conexión
+    if (dkimDomain && dkimSelector && dkimPrivateKey) {
+        transportOptions.dkim = {
+            domainName: dkimDomain,
+            keySelector: dkimSelector,
+            privateKey: dkimPrivateKey,
+        }
+    }
+
+    transporter = nodemailer.createTransport(transportOptions)
+
     transporter.verify().then(() => {
-        if (smtpDebug) console.log('SMTP connection verified OK')
+        if (smtpDebug) console.log('SMTP connection verified OK' + (transportOptions.dkim ? ' (DKIM enabled)' : ''))
     }).catch(err => {
         console.error('SMTP verify failed:', err)
     })

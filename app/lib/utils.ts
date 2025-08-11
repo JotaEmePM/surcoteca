@@ -1,9 +1,9 @@
 export function getRandomItem<T>(arr: T[]): T | undefined {
-    if (arr.length === 0)
-        return undefined
+  if (arr.length === 0)
+    return undefined
 
-    const randomIndex = Math.floor(Math.random() * arr.length)
-    return arr[randomIndex]
+  const randomIndex = Math.floor(Math.random() * arr.length)
+  return arr[randomIndex]
 }
 
 /**
@@ -15,10 +15,10 @@ export const useBaseUrl = () => {
   if (typeof window !== 'undefined') {
     return window.location.origin
   }
-  
+
   // En el servidor, usar la variable de entorno o fallback
-  console.log('1.Base URL en el servidor:', process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001')
-  return process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001'
+  console.log('1.Base URL en el servidor:', process.env.SITE_URL || 'http://localhost:3001')
+  return process.env.SITE_URL || 'http://localhost:3001'
 }
 
 /**
@@ -29,9 +29,9 @@ export const getBaseUrl = () => {
   if (typeof window !== 'undefined') {
     return window.location.origin
   }
-  
-  // En el servidor
-  console.log('2.Base URL en el servidor:', process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3002')
 
-  return process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3002'
+  // En el servidor
+  console.log('2.Base URL en el servidor:', process.env.SITE_URL || 'http://localhost:3002')
+
+  return process.env.SITE_URL || 'http://localhost:3002'
 }
