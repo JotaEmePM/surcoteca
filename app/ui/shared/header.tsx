@@ -173,7 +173,7 @@ export default function Header() {
                     ) : (
                         <PrimaryButton disabled className="opacity-50 cursor-not-allowed">
                             <IconUser />
-                            <span className="hidden lg:inline">Login No Disponible</span>
+                            <span className="hidden lg:inline">Login No Disponiblee</span>
                         </PrimaryButton>
                     )}
                     <PrimaryButton aria-label="Carrito">
@@ -238,7 +238,7 @@ export default function Header() {
                                 <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="mobile-cta">Iniciar Sesión</Link>
                             )
                         ) : (
-                            <span className="text-white/60 text-sm">Login No Disponible</span>
+                            <span className="text-white/60 text-sm">Login No Disponibleee</span>
                         )}
                         <button className="mobile-cta flex items-center gap-2 justify-center mt-2"><IconShoppingCart size={18} /> Carrito</button>
                     </nav>
