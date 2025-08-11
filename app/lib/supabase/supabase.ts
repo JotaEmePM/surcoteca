@@ -1,11 +1,14 @@
 import { createBrowserClient } from '@supabase/ssr'
 
-const supabaseUrl = process.env.SUPABASE_URL || ''
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || ''
+// Usa variables públicas para el cliente (requerido por Next.js) con fallback a las antiguas
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || ''
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || ''
 
 // Cliente para el navegador
 export const createClient = () => {
+  console.log('Creating Supabase client...')
   if (!supabaseUrl || !supabaseAnonKey) {
+    console.error('Missing Supabase URL or Anon Key')
     return null
   }
 

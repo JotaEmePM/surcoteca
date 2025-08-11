@@ -9,8 +9,8 @@ export async function GET(request: NextRequest) {
   const code = requestUrl.searchParams.get('code')
 
   // Verificar que las variables de entorno estén configuradas
-  const supabaseUrl = process.env.SUPABASE_URL
-  const supabaseAnonKey = process.env.SUPABASE_ANON_KEY
+  const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!supabaseUrl || !supabaseAnonKey) {
     console.error('Supabase environment variables not configured')

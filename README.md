@@ -15,15 +15,19 @@ Edita `.env.local` con tus valores reales:
 
 ```bash
 # Environment
-UNDER_CONSTRUCTION=false
+NEXT_PUBLIC_UNDER_CONSTRUCTION=false
 
 # Site URL (importante para OAuth redirects)
-_SITE_URL=http://localhost:3000  # En desarrollo
-# _SITE_URL=https://tu-dominio.vercel.app  # En producción
+NEXT_PUBLIC_SITE_URL=http://localhost:3000  # En desarrollo
+# NEXT_PUBLIC_SITE_URL=https://tu-dominio.vercel.app  # En producción
 
-# Supabase Configuration
-_SUPABASE_URL=tu_supabase_url
-_SUPABASE_ANON_KEY=tu_supabase_anon_key
+# Supabase Configuration (cliente)
+NEXT_PUBLIC_SUPABASE_URL=tu_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_supabase_anon_key
+
+# Opcional (servidor: puedes mantener duplicadas sin prefijo para no exponer service role)
+SUPABASE_URL=tu_supabase_url
+SUPABASE_ANON_KEY=tu_supabase_anon_key
 ```
 
 ### 2. Instalar dependencias y ejecutar
@@ -72,10 +76,13 @@ Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
 ### Variables de entorno requeridas en Vercel:
 ```bash
-_SITE_URL=https://tu-dominio.vercel.app
-_SUPABASE_URL=tu_supabase_url  
-_SUPABASE_ANON_KEY=tu_supabase_anon_key
-UNDER_CONSTRUCTION=false
+NEXT_PUBLIC_SITE_URL=https://tu-dominio.vercel.app
+NEXT_PUBLIC_SUPABASE_URL=tu_supabase_url  
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_supabase_anon_key
+NEXT_PUBLIC_UNDER_CONSTRUCTION=false
+# Variables privadas (solo server) si las necesitas
+SUPABASE_URL=tu_supabase_url
+SUPABASE_ANON_KEY=tu_supabase_anon_key
 ```
 
 ### Configurar en Vercel:
