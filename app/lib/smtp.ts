@@ -1,4 +1,5 @@
 import nodemailer, { Transporter } from 'nodemailer'
+import type SMTPTransport from 'nodemailer/lib/smtp-transport'
 
 // Definimos el tipo del transporter usando la interfaz oficial
 let transporter: Transporter | null = null
@@ -35,7 +36,14 @@ export const SMTP_CONFIG = {
 }
 
 if (smtpHost && smtpPort && smtpUser && smtpPass) {
-    const transportOptions: any = {
+    type TransportOptions = SMTPTransport.Options & {
+        dkim?: {
+            domainName: string
+            keySelector: string
+            privateKey: string
+        }
+    }
+    const transportOptions: TransportOptions = {
         host: smtpHost,
         port: smtpPort,
         secure: smtpPort === 465 || process.env.SMTP_SECURE === 'true',
